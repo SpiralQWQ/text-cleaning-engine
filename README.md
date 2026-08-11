@@ -1,0 +1,138 @@
+<p align="center">
+  <!-- Cover placeholder: add assets/cover.png (1280x640) and uncomment the line below -->
+  <!-- <img src="assets/cover.png" alt="text-cleaning-engine" width="800"> -->
+</p>
+
+<p align="center">
+  <kbd>English</kbd> · <kbd><a href="README_zh.md">简体中文</a></kbd>
+</p>
+
+<p align="center">
+  <a href="https://github.com/SpiralQWQ/text-cleaning-engine/releases"><img src="https://img.shields.io/badge/version-0.5.0-blue" alt="version"></a>
+  <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/python-3.10%2B-3776AB" alt="Python 3.10+"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-AGPL%203.0%20%7C%20Commercial-blue" alt="license"></a>
+  <a href="#"><img src="https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey" alt="platform"></a>
+</p>
+
+<h1 align="center">text-cleaning-engine</h1>
+
+<p align="center">A rule-driven engine that turns <b>dirty text</b> — web pages, ASR transcripts, OCR output — into <b>clean, RAG-ready text</b>.</p>
+<p align="center">Web pages · Plain text · ASR JSON (structure-preserving) · Video OCR/visual transcripts</p>
+
+---
+
+## ✨ Why this engine
+
+Web scrapers and transcriber pipelines produce text full of **noise**: navigation bars, watermarks, UI remnants, repeated subtitles, OCR garbling, split lines. Hand-written cleaning code is a maintenance nightmare — every new site or transcript shape means a code change.
+
+`text-cleaning-engine` pushes cleaning rules **into data** (`cleaning_rules.yaml`), so:
+
+- **Add a new noise pattern without touching code** — edit the YAML, re-run.
+- **Multi-action rules**, not just "delete": `delete` / `compress` / `protect` / `merge`.
+- **Teaching content is never wrongly removed** — subtitles, IPA, translations and glossary lines are protected (see *Transcript content protection*).
+- **Verifiable output** — a retention gate, residual-noise detector, and fallback to the original text when the cleaner over-deletes.
+
+## 🚀 Features
+
+| Input shape | Handled noise | Output |
+|-------------|---------------|--------|
+| Web page HTML | navigation, ads, comments, hot-search, UI remnants | clean body text |
+| Plain text (e.g. zhihu snapshot) | watermark, prompt text, recommendations | clean text |
+| ASR transcript JSON (`text`+`segments`+`sentences`) | punctuation garbling, duplicate records, empty segments | structure-preserving `_clean.json` |
+| Video OCR / visual transcript | frame markers, OCR tags, UI watermarks, split lines, repeated subtitles | clean transcript with teaching kept |
+
+Core capabilities:
+
+- **Multi-action rule engine** (YAML v4): `delete` · `compress_repeat` · `protect_teaching` · `merge_broken_lines`
+- **Transcript content protection (A–E)**: subtitle compression (`原文…[出现N次]`), watermark deletion, OCR-garbling detection, broken-line merging, teaching whitelist
+- **Structure-preserving ASR cleaning**: `start_ms`/`end_ms`/`confidence`/`review` untouched; Chinese teaching segments never deleted
+- **Retention gate**: teaching-keep rate ≥ 95% (benchmarked); empty-output fallback if the cleaner removes > 70%
+- **Residual-noise scan** + **content-integrity check** after every batch
+- **PII scrubbing** via optional presidio (phone / email / ID → `***`)
+- **Incremental + parallel batch cleaning**: file-hash + rule-fingerprint based, crash-resume safe
+
+## 📦 Installation
+
+```bash
+git clone https://github.com/SpiralQWQ/text-cleaning-engine.git
+cd text-cleaning-engine
+pip install -r requirements.txt
+```
+
+`requirements.txt` covers the main environment (`clean-text`, `snownlp`, `jsonschema`, `sentencex`, `PyYAML`). The optional HTML-extraction (`trafilatura`) and PII-scrubbing (`presidio`) tools run in their own venvs — see [`.env.example`](.env.example).
+
+## ⚙️ Configuration
+
+```bash
+cp .env.example .env
+# optional: point to your trafilatura / presidio python venvs and knowledge-base directory
+```
+
+The engine reads every tool path from the environment — **no hardcoded absolute paths** in the code. Configure only what you use.
+
+## 🧰 Usage
+
+```bash
+# Clean a single file with before/after preview
+python -m cleaner.cleaning <input.txt> --preview
+
+# Clean an ASR transcript JSON (structure-preserving)
+python -m cleaner.clean_asr_json transcript.json           # → transcript_clean.json
+
+# Batch-clean a directory (incremental, parallel, residual-scan)
+python cli/clean_batch.py --input <dir> --output <dir> --parallel 4
+
+# Dry-run (stats only, no writes)
+python cli/clean_batch.py --input <dir> --dry-run
+```
+
+## 🏗 Architecture
+
+```
+dirty text
+ └─ cleaner/                 rule engine
+     ├─ cleaning.py           multi-action engine (delete/compress/protect/merge) + residual scan
+     ├─ clean_asr_json.py     ASR JSON → structure-preserving _clean.json
+     └─ sentence_normalize.py sentence-level normalization (merges OCR split lines, protects frames)
+ ├─ cli/clean_batch.py       batch pipeline (incremental · parallel · fallback · audit meta)
+ ├─ rules/cleaning_rules.yaml rule data (per-form groups, multi-action v4)
+ ├─ tests/                   retention gate (≥95%) + acceptance suite
+ └─ docs/                    design, acceptance, interface-contract reports
+```
+
+Rules are grouped by input form (`common` / `zhihu` / `video_ocr` / `video_asr`) and selected automatically. Adding a new site = add a group in the YAML, re-run.
+
+## 🧪 Transcript content protection (A–E)
+
+Problems unique to video transcripts, and how the engine solves them:
+
+| # | Problem | Solution |
+|---|---------|----------|
+| A | Repeated subtitles (video replays) | **compress** to `原文…[出现N次]` — signal kept, not deleted |
+| B | UI watermarks in OCR frames | **delete** via anchored regex, teaching lines exempt first |
+| C | OCR garbling (`garblec`→`garbage`) | **detect** with dictionary + fuzzy match, teaching exempt |
+| D | OCR split lines (one subtitle → 2 lines) | **merge** with sentence normalization, time-adjacency check |
+| E | Short teaching lines (IPA / translation / glossary) | **protect** via whitelist + fuzzy match, before any deletion |
+
+## 📚 Docs
+
+| Doc | What it covers |
+|-----|----------------|
+| [`docs/视频转写清洗方案_v1.0.md`](docs/视频转写清洗方案_v1.0.md) | design of transcript (OCR/ASR) cleaning rules |
+| [`docs/接口对接/接口对接报告.md`](docs/接口对接/接口对接报告.md) | input contract: transcript JSON → clean JSON (format / red lines / API) |
+| [`docs/补丁重构计划_v1.1.md`](docs/补丁重构计划_v1.1.md) | roadmap: 7 refactor points + stage route |
+| [`docs/规则变更日志_v1.0.md`](docs/规则变更日志_v1.0.md) | changelog of `cleaning_rules.yaml` |
+| [`docs/验收报告_v3.0.md`](docs/验收报告_v3.0.md) | acceptance of transcript content protection (A–E) |
+
+## 💛 Support / Tip
+
+If this project has helped you in any way, you're welcome to buy me a coffee. It's completely voluntary — the project stays free and open-source regardless. For an independent developer, every small token of appreciation matters.
+
+## 📄 License
+
+`text-cleaning-engine` is **dual-licensed**:
+
+1. **Open Source** — [GNU Affero General Public License v3 (AGPL-3.0)](LICENSE)
+2. **Commercial** — for use cases where AGPL-3.0 obligations are not acceptable, see [COMMERCIAL.md](COMMERCIAL.md)
+
+Copyright (c) 2026 Spiral QWQ. All rights reserved.

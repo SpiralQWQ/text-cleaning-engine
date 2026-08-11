@@ -1,0 +1,7 @@
+# 清洗工作流 pip 依赖(主环境安装)
+# 独立 venv 工具(trafilatura/presidio)见 .env.example, 不在此列
+PyYAML>=6.0
+clean-text>=0.7.1
+snownlp>=0.12.3
+jsonschema>=4.26.0
+sentencex>=1.0.0   # R2: 句子归一化(合并OCR拆行台词), video 形态前置

@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# 环境与密钥（本机路径不入库）
+.env
+*.log
+
+# 运行时产物（本地生成，不入库）
+logs/
+output/
+
+# 本地展示硬链接（Readme 标准化规则：Git 追踪 README.md/README_zh.md，本地 README_* 变体排除）
+READEME_*
+
+# OS
+.DS_Store
+Thumbs.db

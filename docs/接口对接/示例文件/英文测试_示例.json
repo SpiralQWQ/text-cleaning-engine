@@ -1,0 +1,85 @@
+{
+  "text": "Okay, everybody, listen up. Now that we have the new baby, The Duncans are not going to be able to do our summer vacation. 想让别人认真听，引起别人注意时，如果说是一群人，就可以说 listen up。如果是一个人，就说 listen。Like, we usually do, there's always more. Why is there always more? So. The plan is to head up to the mountains for a few days. Dad got a great deal. S tla r 形容词一流的。less than stellar 就是某事某物是不太出色的。",
+  "segments": [
+    {
+      "text": "Okay, everybody, listen up. Now that we have the new baby, The Duncans are not going to be able to do our summer vacation.",
+      "start_ms": 430,
+      "end_ms": 8660,
+      "confidence": 0.95,
+      "review": false
+    },
+    {
+      "text": "想让别人认真听，引起别人注意时，如果说是一群人，就可以说 listen up。如果是一个人，就说 listen。",
+      "start_ms": 86930,
+      "end_ms": 92520,
+      "confidence": 0.9,
+      "review": false
+    },
+    {
+      "text": "Like, we usually do, there's always more, Why is there always more??",
+      "start_ms": 10700,
+      "end_ms": 16430,
+      "confidence": 0.95,
+      "review": false
+    },
+    {
+      "text": "So. The plan is to head up to the mountains for a few days, Dad got a great deal.",
+      "start_ms": 18630,
+      "end_ms": 37540,
+      "confidence": 0.85,
+      "review": false
+    },
+    {
+      "text": "S tla r 形容词一流的。less than stellar 就是某事某物是不太出色的。",
+      "start_ms": 86930,
+      "end_ms": 92520,
+      "confidence": 0.4,
+      "review": true
+    },
+    {
+      "text": "Like, we usually do, there's always more, Why is there always more??",
+      "start_ms": 10700,
+      "end_ms": 16430,
+      "confidence": 0.95,
+      "review": false
+    }
+  ],
+  "sentences": [
+    {
+      "text": "Okay, everybody, listen up.",
+      "start_ms": 430,
+      "end_ms": 4330,
+      "confidence": 0.95
+    },
+    {
+      "text": "Now that we have the new baby, The Duncans are not going to be able to do our summer vacation.",
+      "start_ms": 4330,
+      "end_ms": 8660,
+      "confidence": 0.95
+    },
+    {
+      "text": "想让别人认真听，引起别人注意时，如果说是一群人，就可以说 listen up。",
+      "start_ms": 86930,
+      "end_ms": 89600,
+      "confidence": 0.9
+    },
+    {
+      "text": "如果是一个人，就说 listen。",
+      "start_ms": 89600,
+      "end_ms": 92520,
+      "confidence": 0.9
+    },
+    {
+      "text": "S tla r 形容词一流的。",
+      "start_ms": 86930,
+      "end_ms": 89100,
+      "confidence": 0.4
+    },
+    {
+      "text": "less than stellar 就是某事某物是不太出色的。",
+      "start_ms": 89100,
+      "end_ms": 92520,
+      "confidence": 0.4
+    }
+  ]
+}
