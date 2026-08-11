@@ -1,6 +1,24 @@
 # 变更日志
 所有对 text-cleaning-engine 的重大变更记录于此，遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)。版本遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [0.5.1] — 2026-08-11 · 开源发布准备
+
+**新增**
+- 双许可 AGPL-3.0 + 商业（`LICENSE` + `COMMERCIAL.md`）
+- 中英双语开源文档：`README.md`/`README_zh.md`、`CHANGELOG.md`/`CHANGELOG_zh.md`；打赏码支持段（微信/支付宝）
+- `docs/开源许可合规_v1.0.md`（依赖许可证合规：全为 MIT/Apache-2.0）+ `docs/开源发布验收报告_v1.0.md`
+- 可移植验收测试：外部样本缺失时自动 SKIP（内置知乎样本兜底）——克隆即跑，开箱即用
+
+**修复**
+- `clean_text(None)` 崩溃（TypeError）——None 输入现在安全降级为空结果
+- `sentence_normalize`：注释声称的"GLM 描述块拆行合并"此前未实现——现在续行经 `_merge_block` 合并（标签行独立保留，与按行删除规则兼容）
+
+**变更**
+- 移除代码与 docs 中的本机路径（隐私清理）；仅保留署名 + 打赏码
+- `.gitignore` 排除 `.env` / `logs` / `output` / 缓存
+
+---
+
 ## [0.5.0] — 2026-08-11 · 转写内容保护（A–E 五类问题修复）
 
 **新增：教学 vs 噪音分类（核心）**
@@ -100,6 +118,7 @@
 
 **验收**：18 最小单元 task 逐个本体审核 + 验收报告
 
+[0.5.1]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.5.1
 [0.5.0]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.5.0
 [0.4.0]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.4.0
 [0.3.0]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.3.0

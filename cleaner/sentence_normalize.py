@@ -32,29 +32,40 @@ def normalize_sentences(text: str) -> str:
     has_label = "[画面文字" in text or "===== 帧" in text
     if not has_label:
         return _merge_block(text)  # 普通文本: 块内单换行合并
-    # visual 结构: 逐行保留, 只对 GLM 描述块内做拆行合并
+    # visual 结构: 逐行保留; GLM 描述块内收集行, 遇下一标签 flush 时合并拆行
     lines = text.split("\n")
     result = []
     in_desc = False  # 是否在 GLM 描述块
+    desc_buf = []    # GLM 描述块内的行(待合并)
+
+    def _flush():
+        nonlocal desc_buf
+        if desc_buf:
+            result.append(_merge_block("\n".join(desc_buf)))
+            desc_buf = []
+
     for i, l in enumerate(lines):
         stripped = l.strip()
         if l.startswith("=====") or stripped.startswith("====="):
+            _flush()
+            in_desc = False
             result.append(l)
             continue
         if l.startswith("[") and stripped.startswith("[") and "OCR" in l:
+            _flush()
             in_desc = False  # OCR 标签开始 → 后面是 OCR 行(逐行保留)
             result.append(l)
             continue
         if l.startswith("[") and stripped.startswith("[") and "GLM" in l:
-            in_desc = True  # GLM 标签开始 → 后面是描述(可合并拆行)
+            _flush()
+            in_desc = True  # GLM 标签行独立保留(按行删除规则可精确删标签); 描述内容行进缓冲合并
             result.append(l)
             continue
         if in_desc:
-            # GLM 描述块: 若当前行是描述开头(画面是), 与后续拆行合并
-            result.append(l)
+            desc_buf.append(l)  # GLM 描述块: 收集, 遇下一标签 flush 时 _merge_block 合并单换行
         else:
-            # OCR 文本块: 逐行保留(独立碎片, 不合并)
-            result.append(l)
+            result.append(l)    # OCR 文本块: 逐行保留(独立碎片, 不合并)
+    _flush()
     return "\n".join(result)
 
 

@@ -23,6 +23,17 @@
 
 ---
 
+## 💛 支持 / 打赏
+
+如果这个项目对你有帮助，欢迎请我喝杯咖啡。完全自愿——项目始终免费开源。对于独立开发者，每一份小小的心意都意义重大。
+
+<p align="center">
+  <img src="assets/donate_wechat.jpg" alt="微信支付" width="200">
+  <img src="assets/donate_alipay.jpg" alt="支付宝" width="200">
+</p>
+
+<p align="center"><i>感谢你读到这里。🙏</i></p>
+
 ## ✨ 为什么需要它
 
 爬虫和转写管线产出的文本充满**噪音**：导航栏、水印、界面残留、重复字幕、OCR 乱码、拆行。手写清洗代码是维护噩梦——每来一个新站点或转写形态就要改一次代码。
@@ -76,13 +87,13 @@ cp .env.example .env
 
 ```bash
 # 清洗单个文件（前后对比预览）
-python -m cleaner.cleaning <input.txt> --preview
+python -m cleaner.cleaning --preview <文件>
 
 # 清洗 ASR 转写 JSON（保结构）
 python -m cleaner.clean_asr_json transcript.json           # → transcript_clean.json
 
 # 批量清洗目录（增量 + 并行 + 残留检测）
-python cli/clean_batch.py --input <目录> --output <目录> --parallel 4
+python cli/clean_batch.py --input <目录> --parallel 4      # → output/知识库_clean/
 
 # 仅统计（dry-run，不写文件）
 python cli/clean_batch.py --input <目录> --dry-run

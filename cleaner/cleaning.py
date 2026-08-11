@@ -734,6 +734,8 @@ def clean_text(raw: str, trafilatura_py: str = "", anonymize: bool = False,
     Returns:
         {"ok","text","engine","stats","valid","schema_errors"}
     """
+    if raw is None:
+        raw = ""
     if not trafilatura_py:
         trafilatura_py = os.environ.get("TRAFILATURA_PY", "")
     stats = {"raw_len": len(raw)}

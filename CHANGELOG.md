@@ -1,6 +1,24 @@
 # Changelog
 All notable changes to text-cleaning-engine are documented here, following [Keep a Changelog](https://keepachangelog.com/en/1.0.0/). Versioning follows [Semantic Versioning](https://semver.org/).
 
+## [0.5.1] — 2026-08-11 · Open-source release prep
+
+**Added**
+- Dual license AGPL-3.0 + commercial (`LICENSE` + `COMMERCIAL.md`)
+- Bilingual open-source docs: `README.md`/`README_zh.md`, `CHANGELOG.md`/`CHANGELOG_zh.md`; support/tip section with donation QR codes
+- `docs/开源许可合规_v1.0.md` (dependency-license compliance: all deps MIT/Apache-2.0) + `docs/开源发布验收报告_v1.0.md`
+- Portable acceptance tests: external-sample paths now SKIP gracefully when missing (built-in zhihu sample as fallback) — clone-and-run works out of the box
+
+**Fixed**
+- `clean_text(None)` crashed with `TypeError` — None input now degrades to an empty result
+- `sentence_normalize`: GLM description-block broken-line merging was documented but never implemented — continuation lines now merge via `_merge_block` (label line stays separate, compatible with line-based deletion rules)
+
+**Changed**
+- Removed machine-local paths from code & docs (privacy cleanup); only author name + donation retained
+- `.gitignore` excludes `.env` / `logs` / `output` / caches
+
+---
+
 ## [0.5.0] — 2026-08-11 · Transcript content protection (A–E)
 
 **Added — teaching-vs-noise classification (core)**
@@ -100,6 +118,7 @@ All notable changes to text-cleaning-engine are documented here, following [Keep
 
 **Acceptance**: 18 minimal tasks reviewed one by one + acceptance report
 
+[0.5.1]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.5.1
 [0.5.0]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.5.0
 [0.4.0]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.4.0
 [0.3.0]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.3.0

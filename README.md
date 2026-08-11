@@ -21,6 +21,17 @@
 
 ---
 
+## 💛 Support / Tip
+
+If this project has helped you in any way, you're welcome to buy me a coffee. It's completely voluntary — the project stays free and open-source regardless. For an independent developer, every small token of appreciation matters.
+
+<p align="center">
+  <img src="assets/donate_wechat.jpg" alt="WeChat Pay" width="200">
+  <img src="assets/donate_alipay.jpg" alt="Alipay" width="200">
+</p>
+
+<p align="center"><i>Thanks for reading all the way down here. 🙏</i></p>
+
 ## ✨ Why this engine
 
 Web scrapers and transcriber pipelines produce text full of **noise**: navigation bars, watermarks, UI remnants, repeated subtitles, OCR garbling, split lines. Hand-written cleaning code is a maintenance nightmare — every new site or transcript shape means a code change.
@@ -74,13 +85,13 @@ The engine reads every tool path from the environment — **no hardcoded absolut
 
 ```bash
 # Clean a single file with before/after preview
-python -m cleaner.cleaning <input.txt> --preview
+python -m cleaner.cleaning --preview <file>
 
 # Clean an ASR transcript JSON (structure-preserving)
 python -m cleaner.clean_asr_json transcript.json           # → transcript_clean.json
 
 # Batch-clean a directory (incremental, parallel, residual-scan)
-python cli/clean_batch.py --input <dir> --output <dir> --parallel 4
+python cli/clean_batch.py --input <dir> --parallel 4       # → output/知识库_clean/
 
 # Dry-run (stats only, no writes)
 python cli/clean_batch.py --input <dir> --dry-run
