@@ -334,6 +334,7 @@ def compress_repetition(lines: list[str], min_count: int = 3) -> list[str]:
     """
     if len(lines) < min_count:
         return lines
+    lines = [l if isinstance(l, str) else (str(l) if l is not None else "") for l in lines]
     from collections import Counter
     # 归一化指纹(小写+去标点空白, 中文保留)
     def _key(s: str) -> str:
@@ -736,6 +737,8 @@ def clean_text(raw: str, trafilatura_py: str = "", anonymize: bool = False,
     """
     if raw is None:
         raw = ""
+    elif not isinstance(raw, str):
+        raw = str(raw)
     if not trafilatura_py:
         trafilatura_py = os.environ.get("TRAFILATURA_PY", "")
     stats = {"raw_len": len(raw)}
@@ -898,6 +901,9 @@ def main():
     valid_cnt = 0
     ratios = []
     for fp in files:
+        if not os.path.isfile(fp):
+            print(f"⚠️ 跳过: 文件不存在或不是文件: {fp}")
+            continue
         raw = open(fp, encoding="utf-8", errors="replace").read()
         res = clean_text(raw, trafilatura_py)
         if preview:

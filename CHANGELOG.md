@@ -1,6 +1,24 @@
 # Changelog
 All notable changes to text-cleaning-engine are documented here, following [Keep a Changelog](https://keepachangelog.com/en/1.0.0/). Versioning follows [Semantic Versioning](https://semver.org/).
 
+## [0.5.2] — 2026-08-12 · Exhaustive testing & defensive hardening
+
+**Added**
+- Exhaustive test acceptance report `docs/穷举测试验收报告_v1.0.md` (16 tasks / 122 paths / 4-round review per task)
+
+**Fixed** (defensive hardening found by exhaustive fuzzing)
+- `clean_text`: non-str input (`bytes`/`int`/`list`) crashed → now coerced to `str`
+- `cleaner.cleaning --file`: missing file / directory-as-file crashed → now skipped with a hint
+- `clean_asr_json`: broken JSON / missing file / non-str segment text crashed → now guarded
+- `normalize_sentences`: `None`/`int` input crashed; pure-GLM text wrongly merged (`has_label` missing `[GLM`) → fixed
+- `compress_repetition`: `None` line crashed → now normalized
+- `clean_batch`: **crash-resume bug** — a deleted output file was skipped instead of re-cleaned (data loss on resume) → now re-cleaned when output is missing
+- `clean_asr_json` docstring privacy leftover removed
+
+**Docs**: acceptance report added to `docs/`
+
+---
+
 ## [0.5.1] — 2026-08-11 · Open-source release prep
 
 **Added**
@@ -118,6 +136,7 @@ All notable changes to text-cleaning-engine are documented here, following [Keep
 
 **Acceptance**: 18 minimal tasks reviewed one by one + acceptance report
 
+[0.5.2]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.5.2
 [0.5.1]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.5.1
 [0.5.0]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.5.0
 [0.4.0]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.4.0

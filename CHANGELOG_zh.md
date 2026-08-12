@@ -1,6 +1,24 @@
 # 变更日志
 所有对 text-cleaning-engine 的重大变更记录于此，遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)。版本遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [0.5.2] — 2026-08-12 · 穷举测试与防御加固
+
+**新增**
+- 穷举测试验收报告 `docs/穷举测试验收报告_v1.0.md`（16 Task / 122 路径 / 每 Task 4 轮审核）
+
+**修复**（穷举模糊测试发现的防御加固）
+- `clean_text`：非 str 输入（bytes/int/list）崩溃 → 现强制转 str
+- `cleaner.cleaning --file`：文件不存在/目录当文件崩溃 → 现跳过并提示
+- `clean_asr_json`：损坏 JSON/文件不存在/段 text 非 str 崩溃 → 现已防护
+- `normalize_sentences`：None/int 输入崩溃；纯 GLM 文本被错误全合并（has_label 缺 `[GLM` 触发）→ 已修
+- `compress_repetition`：None 行崩溃 → 现做规范化
+- `clean_batch`：**断点续洗 bug**——输出文件被删后重跑被跳过而非重洗（续洗数据丢失）→ 现输出缺失时重洗恢复
+- `clean_asr_json` docstring 隐私残留移除
+
+**文档**：docs/ 新增验收报告
+
+---
+
 ## [0.5.1] — 2026-08-11 · 开源发布准备
 
 **新增**
@@ -118,6 +136,7 @@
 
 **验收**：18 最小单元 task 逐个本体审核 + 验收报告
 
+[0.5.2]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.5.2
 [0.5.1]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.5.1
 [0.5.0]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.5.0
 [0.4.0]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.4.0

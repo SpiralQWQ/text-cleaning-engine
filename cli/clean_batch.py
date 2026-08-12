@@ -167,12 +167,17 @@ def clean_kb(suffix: str = "html", anonymize: bool = False,
         except OSError:
             fh = ""
         prev = state.get(fp, {})
+        out_txt = os.path.join(clean_root, _rel_without_ext(fp) + ".txt")
+        # 断点续洗(E9): 输出文件不存在(中断/手动删除丢失) → 必须重洗恢复
+        if not os.path.exists(out_txt):
+            todo.append((fp, fh))
+            continue
+        # 增量(E1): 输出已存在 + hash + 规则指纹 都未变 → 跳过
         if prev.get("hash") == fh and prev.get("rules_fp") == rules_fp:
             stats["skipped_incr"] += 1
             continue
-        # 断点续洗(E9): 输出已存在且比源新(中断后恢复) → 视为已洗, 补记 state
-        out_txt = os.path.join(clean_root, _rel_without_ext(fp) + ".txt")
-        if os.path.exists(out_txt) and os.path.getmtime(out_txt) >= os.path.getmtime(fp):
+        # 断点续洗: 输出存在且比源新(中断后恢复) → 视为已洗, 补记 state
+        if os.path.getmtime(out_txt) >= os.path.getmtime(fp):
             stats["skipped_incr"] += 1
             state[fp] = {"hash": fh, "rules_fp": rules_fp,
                          "ts": time.strftime("%Y-%m-%d %H:%M:%S")}

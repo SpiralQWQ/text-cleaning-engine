@@ -134,6 +134,7 @@ Problems unique to video transcripts, and how the engine solves them:
 | [`docs/规则变更日志_v1.0.md`](docs/规则变更日志_v1.0.md) | changelog of `cleaning_rules.yaml` |
 | [`docs/开源许可合规_v1.0.md`](docs/开源许可合规_v1.0.md) | dependency-license compliance (AGPL-3.0 feasibility) |
 | [`docs/开源发布验收报告_v1.0.md`](docs/开源发布验收报告_v1.0.md) | open-source release acceptance |
+| [`docs/穷举测试验收报告_v1.0.md`](docs/穷举测试验收报告_v1.0.md) | exhaustive test acceptance (122 paths) |
 
 ## 💛 Support / Tip
 

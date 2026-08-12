@@ -136,6 +136,7 @@ python cli/clean_batch.py --input <目录> --dry-run
 | [`docs/规则变更日志_v1.0.md`](docs/规则变更日志_v1.0.md) | `cleaning_rules.yaml` 的变更记录 |
 | [`docs/开源许可合规_v1.0.md`](docs/开源许可合规_v1.0.md) | 依赖许可证合规（AGPL-3.0 可行性） |
 | [`docs/开源发布验收报告_v1.0.md`](docs/开源发布验收报告_v1.0.md) | 开源发布验收 |
+| [`docs/穷举测试验收报告_v1.0.md`](docs/穷举测试验收报告_v1.0.md) | 穷举测试验收（122 路径） |
 
 ## 💛 支持
 

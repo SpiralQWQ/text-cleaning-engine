@@ -1,6 +1,6 @@
 """ASR json 逐段清洗 → 保结构 _clean.json（接口契约 v1.1 原型）
 
-上游转写工具 转写 json（text + segments + sentences）→ 清洗后保 json 结构输出 _clean.json。
+上游转写 json（text + segments + sentences）→ 清洗后保 json 结构输出 _clean.json。
 遵守接口红线：
   1. segments/sentences 结构不拼平（逐段/逐句清洗）
   2. start_ms/end_ms/confidence/review 不改值
@@ -46,6 +46,8 @@ def _norm_punct(text: str) -> str:
 
 def _segment_key(text: str) -> str:
     """段文本 → 归一化指纹（小写+去非字母数字+去空白），用于重复检测。"""
+    if not isinstance(text, str):
+        text = str(text) if text is not None else ""
     return re.sub(r"[^a-z0-9一-鿿]", "", text.lower())
 
 
@@ -66,6 +68,8 @@ def _dedup_segments(segments: list[dict]) -> list[dict]:
         if not isinstance(seg, dict):
             continue
         text = seg.get("text") or ""
+        if not isinstance(text, str):
+            text = str(text)
         key = _segment_key(text)
         ts = (seg.get("start_ms"), seg.get("end_ms"))
         if _has_chinese(text):
@@ -93,6 +97,8 @@ def _clean_text_segment(text: str) -> str:
     """
     if text is None:
         return ""
+    if not isinstance(text, str):
+        text = str(text)
     t = _norm_punct(text)
     t = re.sub(r"[ \t　]+", " ", t)
     t = t.strip()
@@ -155,7 +161,14 @@ def main():
         print("用法: python -m cleaner.clean_asr_json input.json [output.json]")
         sys.exit(1)
     src = sys.argv[1]
-    data = json.load(open(src, encoding="utf-8"))
+    if not os.path.isfile(src):
+        print(f"❌ 文件不存在或不是文件: {src}")
+        sys.exit(1)
+    try:
+        data = json.load(open(src, encoding="utf-8"))
+    except json.JSONDecodeError as e:
+        print(f"❌ JSON 解析失败: {src} — {e}")
+        sys.exit(1)
     result = clean_asr_json(data)
     if len(sys.argv) >= 3:
         dst = sys.argv[2]

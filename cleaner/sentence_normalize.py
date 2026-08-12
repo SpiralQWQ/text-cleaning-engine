@@ -26,10 +26,14 @@ def normalize_sentences(text: str) -> str:
       - 标签行及其后的 OCR 文本块([画面文字OCR] 到 [GLM画面理解] 之间) — 逐行独立碎片
       - 仅 GLM 描述块(画面是/画面为...开头)内部才合并拆行
     """
+    if text is None:
+        return ""
+    if not isinstance(text, str):
+        text = str(text)
     if "\n" not in text:
         return text
     # 检测是否 visual 结构(含标签)
-    has_label = "[画面文字" in text or "===== 帧" in text
+    has_label = "[画面文字" in text or "===== 帧" in text or "[GLM" in text
     if not has_label:
         return _merge_block(text)  # 普通文本: 块内单换行合并
     # visual 结构: 逐行保留; GLM 描述块内收集行, 遇下一标签 flush 时合并拆行
