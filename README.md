@@ -125,6 +125,26 @@ Problems unique to video transcripts, and how the engine solves them:
 | D | OCR split lines (one subtitle → 2 lines) | **merge** with sentence normalization, time-adjacency check |
 | E | Short teaching lines (IPA / translation / glossary) | **protect** via whitelist + fuzzy match, before any deletion |
 
+## 🔗 Integration
+
+Pair `text-cleaning-engine` with [**document-to-markdown**](https://github.com/SpiralQWQ/document-to-markdown)
+— a PDF / Word / PPT → Markdown converter built on MinerU — for a full document pipeline:
+
+```
+PDF / Word / PPT → (document-to-markdown) → Markdown → (text-cleaning-engine) → clean text → LLM
+```
+
+The standard cleaning entry point is callable from any external tool:
+
+```bash
+python -m cleaner.clean_md full.md [--anonymize]           # → JSON {ok, cleaned_text, stats}
+python -m cleaner.clean_md full.md --output full_clean.md  # → also write the cleaned file
+```
+
+`document-to-markdown` calls this interface automatically via its `--clean` hook
+(after conversion), stripping watermarks / navigation / garbled fragments before
+the text reaches your LLM.
+
 ## 📚 Docs
 
 | Doc | What it covers |
@@ -135,10 +155,6 @@ Problems unique to video transcripts, and how the engine solves them:
 | [`docs/开源许可合规_v1.0.md`](docs/开源许可合规_v1.0.md) | dependency-license compliance (AGPL-3.0 feasibility) |
 | [`docs/开源发布验收报告_v1.0.md`](docs/开源发布验收报告_v1.0.md) | open-source release acceptance |
 | [`docs/穷举测试验收报告_v1.0.md`](docs/穷举测试验收报告_v1.0.md) | exhaustive test acceptance (122 paths) |
-
-## 💛 Support / Tip
-
-If this project has helped you in any way, you're welcome to buy me a coffee. It's completely voluntary — the project stays free and open-source regardless. For an independent developer, every small token of appreciation matters.
 
 ## 📄 License
 

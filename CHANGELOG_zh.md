@@ -1,6 +1,14 @@
 # 变更日志
 所有对 text-cleaning-engine 的重大变更记录于此，遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)。版本遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [0.5.3] — 2026-08-12 · 集成接口入口
+
+**新增**
+- `cleaner/clean_md.py`：标准 Markdown 清洗入口——`python -m cleaner.clean_md full.md [--anonymize]` → JSON `{ok, cleaned_text, stats}`；供外部工具子进程调用（如 document-to-markdown 的清洗钩子）
+- README 集成联动小节：与 `document-to-markdown` 配合（PDF/Word/PPT → Markdown → 干净文本 → LLM）
+
+---
+
 ## [0.5.2] — 2026-08-12 · 穷举测试与防御加固
 
 **新增**
@@ -89,12 +97,12 @@
 ## [0.3.0] — 2026-08-10 · 独立化
 
 **结构独立**：
-- 从爬虫项目 `_crawl` 内抽离为独立模块（与 `_crawl` 平级）
+- 从上游爬虫项目内抽离为独立模块
 - 目录分层：`cleaner/`（引擎）`cli/`（命令）`rules/`（规则数据）`tests/`（验收）`docs/`（文档）`output/`（运行时输出）
 - 解耦 `upstream.config` 依赖（工具路径读 `.env`、KB 参数化、输出到 `output/`）
 - `.env.example` 工具路径模板（开源用）；`requirements.txt` 独立依赖
 
-**验收**：`tests/test_acceptance.py` 14/14 通过；40 篇知乎全量清洗（残留 0、正文完整）输出到独立项目；`_crawl` 原文件已删（独立项目为唯一来源）
+**验收**：`tests/test_acceptance.py` 14/14 通过；40 篇知乎全量清洗（残留 0、正文完整）输出到独立项目；爬虫项目原文件已删（独立项目为唯一来源）
 
 ---
 
@@ -136,6 +144,7 @@
 
 **验收**：18 最小单元 task 逐个本体审核 + 验收报告
 
+[0.5.3]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.5.3
 [0.5.2]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.5.2
 [0.5.1]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.5.1
 [0.5.0]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.5.0

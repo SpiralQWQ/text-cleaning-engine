@@ -127,6 +127,25 @@ python cli/clean_batch.py --input <目录> --dry-run
 | D | OCR 拆行（一句字幕被拆 2 行） | **合并**（句子归一化 + 时间相邻判断） |
 | E | 教学短行（音标 / 中文翻译 / 单词卡） | **保护**（白名单 + 模糊匹配），先于一切删除 |
 
+## 🔗 集成联动
+
+把 `text-cleaning-engine` 与 [**document-to-markdown**](https://github.com/SpiralQWQ/document-to-markdown)
+（基于 MinerU 的 PDF / Word / PPT → Markdown 转换器）配合，形成完整文档管线：
+
+```
+PDF / Word / PPT →（document-to-markdown）→ Markdown →（text-cleaning-engine）→ 干净文本 → LLM
+```
+
+标准清洗入口可被任何外部工具调用：
+
+```bash
+python -m cleaner.clean_md full.md [--anonymize]           # → JSON {ok, cleaned_text, stats}
+python -m cleaner.clean_md full.md --output full_clean.md  # → 同时写入清洗后文件
+```
+
+`document-to-markdown` 通过其 `--clean` 钩子在转换后自动调用本接口，把水印/导航/
+乱码碎片在进入 LLM 前清洗掉。
+
 ## 📚 文档
 
 | 文档 | 内容 |
@@ -137,10 +156,6 @@ python cli/clean_batch.py --input <目录> --dry-run
 | [`docs/开源许可合规_v1.0.md`](docs/开源许可合规_v1.0.md) | 依赖许可证合规（AGPL-3.0 可行性） |
 | [`docs/开源发布验收报告_v1.0.md`](docs/开源发布验收报告_v1.0.md) | 开源发布验收 |
 | [`docs/穷举测试验收报告_v1.0.md`](docs/穷举测试验收报告_v1.0.md) | 穷举测试验收（122 路径） |
-
-## 💛 支持
-
-如果这个项目对你有帮助，欢迎请我喝杯咖啡。完全自愿——项目始终免费开源。对于独立开发者，每一份小小的心意都意义重大。
 
 ## 📄 许可证
 

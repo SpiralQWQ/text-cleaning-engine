@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to text-cleaning-engine are documented here, following [Keep a Changelog](https://keepachangelog.com/en/1.0.0/). Versioning follows [Semantic Versioning](https://semver.org/).
 
+## [0.5.3] — 2026-08-12 · Integration entry point
+
+**Added**
+- `cleaner/clean_md.py`: standard Markdown cleaning entry point — `python -m cleaner.clean_md full.md [--anonymize]` → JSON `{ok, cleaned_text, stats}`; callable from external tools via subprocess (e.g. `document-to-markdown`'s clean hook)
+- README integration section: pair with `document-to-markdown` (PDF/Word/PPT → Markdown → clean text → LLM)
+
+---
+
 ## [0.5.2] — 2026-08-12 · Exhaustive testing & defensive hardening
 
 **Added**
@@ -89,12 +97,12 @@ All notable changes to text-cleaning-engine are documented here, following [Keep
 ## [0.3.0] — 2026-08-10 · Standalone module
 
 **Restructure**:
-- Extracted from the crawler project `_crawl` into a standalone module (sibling of `_crawl`)
+- Extracted from the upstream crawler project into a standalone module
 - Layered layout: `cleaner/` (engine) `cli/` (commands) `rules/` (rule data) `tests/` (acceptance) `docs/` (docs) `output/` (runtime output)
 - Decoupled `upstream.config` dependency (tool paths read `.env`, KB parameterized, output to `output/`)
 - `.env.example` tool-path template (for open source); independent `requirements.txt`
 
-**Acceptance**: `tests/test_acceptance.py` 14/14; 40-article zhihu full clean (0 residual, body intact) to the standalone project; `_crawl` originals removed (standalone is the single source)
+**Acceptance**: `tests/test_acceptance.py` 14/14; 40-article zhihu full clean (0 residual, body intact) to the standalone project; upstream-crawler originals removed (standalone is the single source)
 
 ---
 
@@ -136,6 +144,7 @@ All notable changes to text-cleaning-engine are documented here, following [Keep
 
 **Acceptance**: 18 minimal tasks reviewed one by one + acceptance report
 
+[0.5.3]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.5.3
 [0.5.2]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.5.2
 [0.5.1]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.5.1
 [0.5.0]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.5.0
