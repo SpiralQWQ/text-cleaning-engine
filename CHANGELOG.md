@@ -47,7 +47,7 @@ All notable changes to text-cleaning-engine are documented here, following [Keep
 ## [0.5.2] — 2026-08-12 · Exhaustive testing & defensive hardening
 
 **Added**
-- Exhaustive test acceptance report `docs/穷举测试验收报告_v1.0.md` (16 tasks / 122 paths / 4-round review per task)
+- Exhaustive test acceptance report 内部验收报告（已归档，未随仓发布） (16 tasks / 122 paths / 4-round review per task)
 
 **Fixed** (defensive hardening found by exhaustive fuzzing)
 - `clean_text`: non-str input (`bytes`/`int`/`list`) crashed → now coerced to `str`
@@ -66,7 +66,7 @@ All notable changes to text-cleaning-engine are documented here, following [Keep
 **Added**
 - Dual license AGPL-3.0 + commercial (`LICENSE` + `COMMERCIAL.md`)
 - Bilingual open-source docs: `README.md`/`README_zh.md`, `CHANGELOG.md`/`CHANGELOG_zh.md`; support/tip section with donation QR codes
-- `docs/开源许可合规_v1.0.md` (dependency-license compliance: all deps MIT/Apache-2.0) + `docs/开源发布验收报告_v1.0.md`
+- `docs/开源许可合规_v1.0.md` (dependency-license compliance: all deps MIT/Apache-2.0) + 内部验收报告（已归档，未随仓发布）
 - Portable acceptance tests: external-sample paths now SKIP gracefully when missing (built-in zhihu sample as fallback) — clone-and-run works out of the box
 
 **Fixed**
@@ -100,7 +100,7 @@ All notable changes to text-cleaning-engine are documented here, following [Keep
 - Audit fields: output meta records `fallback` / `residual` / `content_issue` for traceability
 - Teaching-retention gate: `tests/teaching_benchmark.json` (30 labeled cases) + `test_teaching_retention.py` (≥95%)
 
-**Acceptance**: T1–T12 reviewed one by one; verified on a real 179-frame transcript (subtitle compression kept / garbling removed / broken lines merged / teaching kept / watermarks deleted); teaching retention 100%; zero regression on the original 14-item suite — see `docs/验收报告_v3.0.md`
+**Acceptance**: T1–T12 reviewed one by one; verified on a real 179-frame transcript (subtitle compression kept / garbling removed / broken lines merged / teaching kept / watermarks deleted); teaching retention 100%; zero regression on the original 14-item suite (internal acceptance report archived, not shipped)
 
 
 ## [0.4.0] — 2026-08-11 · Interface adaptation (stage 0, transcript-JSON input)
@@ -119,8 +119,8 @@ All notable changes to text-cleaning-engine are documented here, following [Keep
 
 **Docs**
 - `docs/接口对接/`: interface-contract report + examples (format / red lines / API)
-- `docs/补丁重构计划_v1.1.md`: interface contract + open-question resolutions
-- `docs/验收报告_v2.0.md`: stage-0 interface acceptance
+- 内部重构计划（已归档，未随仓发布）: interface contract + open-question resolutions
+- 内部验收报告（已归档，未随仓发布）: stage-0 interface acceptance
 
 **Acceptance**: T1–T7 reviewed one by one; 15/15 interface red lines honored; `_clean.json` structure-preserving; original 14-item suite all green (zero regression)
 
@@ -173,6 +173,7 @@ All notable changes to text-cleaning-engine are documented here, following [Keep
 
 **Acceptance**: 18 minimal tasks reviewed one by one + acceptance report
 
+[0.6.1]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.6.1
 [0.6.0]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.6.0
 [0.5.3]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.5.3
 [0.5.2]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.5.2

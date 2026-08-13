@@ -7,8 +7,8 @@ upgraded promptly.
 
 | Version | Supported          |
 |---------|--------------------|
-| latest  | ✅                |
-| older   | ❌ (please upgrade)|
+| latest  | Supported          |
+| older   | Not supported (please upgrade) |
 
 ## Reporting a Vulnerability
 

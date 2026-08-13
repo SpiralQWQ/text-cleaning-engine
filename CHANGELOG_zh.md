@@ -45,7 +45,7 @@
 ## [0.5.2] — 2026-08-12 · 穷举测试与防御加固
 
 **新增**
-- 穷举测试验收报告 `docs/穷举测试验收报告_v1.0.md`（16 Task / 122 路径 / 每 Task 4 轮审核）
+- 穷举测试验收报告 内部验收报告（已归档，未随仓发布）（16 Task / 122 路径 / 每 Task 4 轮审核）
 
 **修复**（穷举模糊测试发现的防御加固）
 - `clean_text`：非 str 输入（bytes/int/list）崩溃 → 现强制转 str
@@ -64,7 +64,7 @@
 **新增**
 - 双许可 AGPL-3.0 + 商业（`LICENSE` + `COMMERCIAL.md`）
 - 中英双语开源文档：`README.md`/`README_zh.md`、`CHANGELOG.md`/`CHANGELOG_zh.md`；打赏码支持段（微信/支付宝）
-- `docs/开源许可合规_v1.0.md`（依赖许可证合规：全为 MIT/Apache-2.0）+ `docs/开源发布验收报告_v1.0.md`
+- `docs/开源许可合规_v1.0.md`（依赖许可证合规：全为 MIT/Apache-2.0）+ 内部验收报告（已归档，未随仓发布）
 - 可移植验收测试：外部样本缺失时自动 SKIP（内置知乎样本兜底）——克隆即跑，开箱即用
 
 **修复**
@@ -98,7 +98,7 @@
 - 审计字段：输出 meta 记录 `fallback` / `residual` / `content_issue` 可追溯
 - 教学保留率门禁：`tests/teaching_benchmark.json`（30 条标注）+ `test_teaching_retention.py`（≥95%）
 
-**验收**：T1–T12 逐个本体审核通过；真实 179 帧验证（台词压缩保留/乱码清除/拆行合并/教学保留/水印删除）；教学保留率 100%；原 14 项验收零回归；详见 `docs/验收报告_v3.0.md`
+**验收**：T1–T12 逐个本体审核通过；真实 179 帧验证（台词压缩保留/乱码清除/拆行合并/教学保留/水印删除）；教学保留率 100%；原 14 项验收零回归；内部验收报告（已归档，未随仓发布）
 
 
 ## [0.4.0] — 2026-08-11 · 接口适配（阶段0，对接转写产出）
@@ -117,8 +117,8 @@
 
 **文档**
 - `docs/接口对接/`：接口对接报告 + 示例文件（格式契约/红线/接口）
-- `docs/补丁重构计划_v1.1.md`：接入接口契约 + 开放问题定案
-- `docs/验收报告_v2.0.md`：阶段0 接口适配验收
+- 内部重构计划（已归档，未随仓发布）：接入接口契约 + 开放问题定案
+- 内部验收报告（已归档，未随仓发布）：阶段0 接口适配验收
 
 **验收**：T1–T7 逐个本体审核通过；接口红线 15/15 遵守；`_clean.json` 原型保结构输出；原 14 项验收测试全过（零回归）
 
@@ -171,6 +171,7 @@
 
 **验收**：18 最小单元 task 逐个本体审核 + 验收报告
 
+[0.6.1]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.6.1
 [0.6.0]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.6.0
 [0.5.3]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.5.3
 [0.5.2]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.5.2

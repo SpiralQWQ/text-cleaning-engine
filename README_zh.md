@@ -19,7 +19,7 @@
 
 <p align="center">
   <a href="https://github.com/SpiralQWQ/text-cleaning-engine/actions/workflows/ci.yml"><img src="https://github.com/SpiralQWQ/text-cleaning-engine/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-  <a href="https://github.com/SpiralQWQ/text-cleaning-engine/releases"><img src="https://img.shields.io/badge/version-0.6.0-blue" alt="Version"></a>
+  <a href="https://github.com/SpiralQWQ/text-cleaning-engine/releases"><img src="https://img.shields.io/badge/version-0.6.1-blue" alt="Version"></a>
   <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/python-3.10%2B-3776AB" alt="Python 3.10+"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-AGPL%203.0%20%7C%20Commercial-blue" alt="License"></a>
   <a href="#"><img src="https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey" alt="Platform"></a>
@@ -159,7 +159,7 @@ python cli/clean_batch.py --input <目录> --dedup
  ├─ cli/clean_batch.py       批量管线（增量 · 并行 · 回退 · 审计元数据）
  ├─ rules/cleaning_rules.yaml 规则数据（按形态分组，多动作 v4）
  ├─ tests/                   保留率门禁（≥95%）+ 验收套件
- └─ docs/                    方案、验收、接口契约报告
+ └─ docs/                    方案、接口契约、合规报告
 ```
 
 规则按输入形态分组（`common` / `zhihu` / `video_ocr` / `video_asr`），自动选择。加新站点 = YAML 加一组，重跑。
@@ -250,6 +250,10 @@ python _tools/_verify_10rounds.py
 </p>
 
 <p align="center"><i>感谢你读到这里。🙏</i></p>
+
+## 更新日志
+
+所有版本变更见 [CHANGELOG.md](CHANGELOG.md)（英文）与 [CHANGELOG_zh.md](CHANGELOG_zh.md)（中文）。
 
 ## 许可证
 

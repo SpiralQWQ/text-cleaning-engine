@@ -19,7 +19,7 @@
 
 <p align="center">
   <a href="https://github.com/SpiralQWQ/text-cleaning-engine/actions/workflows/ci.yml"><img src="https://github.com/SpiralQWQ/text-cleaning-engine/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-  <a href="https://github.com/SpiralQWQ/text-cleaning-engine/releases"><img src="https://img.shields.io/badge/version-0.6.0-blue" alt="version"></a>
+  <a href="https://github.com/SpiralQWQ/text-cleaning-engine/releases"><img src="https://img.shields.io/badge/version-0.6.1-blue" alt="version"></a>
   <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/python-3.10%2B-3776AB" alt="Python 3.10+"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-AGPL%203.0%20%7C%20Commercial-blue" alt="license"></a>
   <a href="#"><img src="https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey" alt="platform"></a>
@@ -159,7 +159,7 @@ dirty text
  ├─ cli/clean_batch.py       batch pipeline (incremental · parallel · fallback · audit meta)
  ├─ rules/cleaning_rules.yaml rule data (per-form groups, multi-action v4)
  ├─ tests/                   retention gate (≥95%) + acceptance suite
- └─ docs/                    design, acceptance, interface-contract reports
+ └─ docs/                    design, interface-contract, license-compliance reports
 ```
 
 Rules are grouped by input form (`common` / `zhihu` / `video_ocr` / `video_asr`) and selected automatically. Adding a new site = add a group in the YAML, re-run.
@@ -252,6 +252,10 @@ If this project has helped you in any way, you're welcome to buy me a coffee. It
 </p>
 
 <p align="center"><i>Thanks for reading all the way down here. 🙏</i></p>
+
+## Changelog
+
+All versions are tracked in [CHANGELOG.md](CHANGELOG.md) (English) and [CHANGELOG_zh.md](CHANGELOG_zh.md) (中文).
 
 ## License
 
