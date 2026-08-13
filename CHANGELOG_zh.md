@@ -1,18 +1,31 @@
 # 变更日志
 所有对 text-cleaning-engine 的重大变更记录于此，遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)。版本遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
-## [Unreleased]
+## [0.6.0] — 2026-08-13 · 开源规范化
+
+**新增**
+- `CONTRIBUTING.md` + `SECURITY.md`：贡献指南与安全政策
+- GitHub Actions CI（`.github/workflows/ci.yml`）：Python 3.10 / 3.11 / 3.12 三版本全量测试
+- 总体开源验收报告 `docs/开源发布验收报告_v2.0.md`
+
+**变更**
+- README / README_zh 按开源规范重写：目录、扩充徽章（CI / stars / last-commit）、快速上手、配置表、运行测试、贡献、常见问题
+- CHANGELOG 双语规范化：补 `[Unreleased]`、去除 `---` 分隔、修正过时文档名
+- `COMMERCIAL.md`：纠正错误的第三方依赖清单（改为真实清洗依赖）
+- 文档：移除内部引用（`export_srt`、内部调研措辞），修复格式残留
+- `_tools/_verify_10rounds.py`：路径改 `os.path.join` 跨平台化——修复 Linux/macOS CI 崩溃
 
 **修复**
 - `cleaner/cleaning.py`：移除模块 docstring 与 CLI 描述中的过期内部模块名（`cleaner`）
 - `tests/test_acceptance.py`：本机样本路径硬编码 → `CLEAN_TEST_ZHI_HU` 环境变量（缺失时优雅 SKIP）
+- `_tools/_verify_10rounds.py`：过期断言修复——YAML `version` 3 → 4、验收判定改为 SKIP 感知
+- README 版本徽章 0.5.2 → 0.6.0（此前落后于 CHANGELOG）
 
 **移除**
 - `tests/verify_zhihu_rag.py`：上游 RAG 索引验证脚本（重型 ML 依赖，超出引擎范围）
 
-**变更**
-- `_tools/_verify_10rounds.py`：过期断言修复——YAML `version` 3 → 4、验收判定改为 SKIP 感知
-- 文档：移除内部引用（`export_srt`、内部调研措辞）
+**安全**
+- git 历史清洗发布前提交中的内部路径
 
 ## [0.5.3] — 2026-08-12 · 集成接口入口
 
@@ -150,6 +163,7 @@
 
 **验收**：18 最小单元 task 逐个本体审核 + 验收报告
 
+[0.6.0]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.6.0
 [0.5.3]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.5.3
 [0.5.2]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.5.2
 [0.5.1]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.5.1

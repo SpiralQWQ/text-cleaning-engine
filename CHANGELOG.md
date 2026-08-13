@@ -1,18 +1,31 @@
 # Changelog
 All notable changes to text-cleaning-engine are documented here, following [Keep a Changelog](https://keepachangelog.com/en/1.0.0/). Versioning follows [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [0.6.0] — 2026-08-13 · Open-source standardization
+
+**Added**
+- `CONTRIBUTING.md` + `SECURITY.md`: contribution guidelines and security policy
+- GitHub Actions CI (`.github/workflows/ci.yml`): runs all three suites on Python 3.10 / 3.11 / 3.12
+- Overall open-source acceptance report `docs/开源发布验收报告_v2.0.md`
+
+**Changed**
+- README / README_zh rewritten to open-source standards: TOC, expanded badges (CI / stars / last-commit), Quick Start, Configuration reference, Running Tests, Contributing, FAQ
+- CHANGELOG bilingual normalization: `[Unreleased]` section, removed `---` separators, fixed stale doc names
+- `COMMERCIAL.md`: corrected the erroneous third-party dependency list (now matches the real cleaning stack)
+- Docs: removed internal references (`export_srt`, internal survey wording), fixed formatting artifacts
+- `_tools/_verify_10rounds.py`: paths made cross-platform (`os.path.join`) — fixes a Linux/macOS CI crash
 
 **Fixed**
 - `cleaner/cleaning.py`: removed stale internal module name (`cleaner`) from the module docstring and CLI description
 - `tests/test_acceptance.py`: hardcoded local sample path → `CLEAN_TEST_ZHI_HU` env var (missing → graceful SKIP)
+- `_tools/_verify_10rounds.py`: stale assertions fixed — YAML `version` 3 → 4, acceptance check now SKIP-aware
+- README version badge 0.5.2 → 0.6.0 (was behind CHANGELOG)
 
 **Removed**
 - `tests/verify_zhihu_rag.py`: upstream RAG-index verification script (heavy ML deps, out of scope)
 
-**Changed**
-- `_tools/_verify_10rounds.py`: stale assertions fixed — YAML `version` 3 → 4, acceptance check now SKIP-aware
-- Docs: removed internal references (`export_srt`, internal survey wording)
+**Security**
+- Git history scrubbed of internal paths from pre-release commits
 
 ## [0.5.3] — 2026-08-12 · Integration entry point
 
@@ -150,6 +163,7 @@ All notable changes to text-cleaning-engine are documented here, following [Keep
 
 **Acceptance**: 18 minimal tasks reviewed one by one + acceptance report
 
+[0.6.0]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.6.0
 [0.5.3]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.5.3
 [0.5.2]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.5.2
 [0.5.1]: https://github.com/SpiralQWQ/text-cleaning-engine/releases/tag/v0.5.1
