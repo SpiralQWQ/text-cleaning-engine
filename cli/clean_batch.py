@@ -74,7 +74,7 @@ def _rules_fingerprint() -> str:
 
 
 def _setup_logger() -> logging.Logger:
-    """清洗日志(E3): 写 _crawl/logs/clean_kb.log, 记录运行/失败/摘要可排查。"""
+    """清洗日志(E3): 写 logs/clean_kb.log, 记录运行/失败/摘要可排查。"""
     log_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "logs")
     os.makedirs(log_dir, exist_ok=True)
     logger = logging.getLogger("clean_kb")

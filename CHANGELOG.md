@@ -16,7 +16,7 @@ All notable changes to text-cleaning-engine are documented here, following [Keep
 - `_tools/_verify_10rounds.py`: paths made cross-platform (`os.path.join`) — fixes a Linux/macOS CI crash
 
 **Fixed**
-- `cleaner/cleaning.py`: removed stale internal module name (`cleaner`) from the module docstring and CLI description
+- `cleaner/cleaning.py`: removed a stale internal module name from the module docstring and CLI description
 - `tests/test_acceptance.py`: hardcoded local sample path → `CLEAN_TEST_ZHI_HU` env var (missing → graceful SKIP)
 - `_tools/_verify_10rounds.py`: stale assertions fixed — YAML `version` 3 → 4, acceptance check now SKIP-aware
 - README version badge 0.5.2 → 0.6.0 (was behind CHANGELOG)
@@ -120,7 +120,7 @@ All notable changes to text-cleaning-engine are documented here, following [Keep
 **Restructure**:
 - Extracted from the upstream crawler project into a standalone module
 - Layered layout: `cleaner/` (engine) `cli/` (commands) `rules/` (rule data) `tests/` (acceptance) `docs/` (docs) `output/` (runtime output)
-- Decoupled `upstream.config` dependency (tool paths read `.env`, KB parameterized, output to `output/`)
+- Decoupled the upstream crawler's config dependency (tool paths read `.env`, KB parameterized, output to `output/`)
 - `.env.example` tool-path template (for open source); independent `requirements.txt`
 
 **Acceptance**: `tests/test_acceptance.py` 14/14; 40-article zhihu full clean (0 residual, body intact) to the standalone project; upstream-crawler originals removed (standalone is the single source)

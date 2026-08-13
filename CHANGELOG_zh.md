@@ -16,7 +16,7 @@
 - `_tools/_verify_10rounds.py`：路径改 `os.path.join` 跨平台化——修复 Linux/macOS CI 崩溃
 
 **修复**
-- `cleaner/cleaning.py`：移除模块 docstring 与 CLI 描述中的过期内部模块名（`cleaner`）
+- `cleaner/cleaning.py`：移除模块 docstring 与 CLI 描述中的过期内部模块名
 - `tests/test_acceptance.py`：本机样本路径硬编码 → `CLEAN_TEST_ZHI_HU` 环境变量（缺失时优雅 SKIP）
 - `_tools/_verify_10rounds.py`：过期断言修复——YAML `version` 3 → 4、验收判定改为 SKIP 感知
 - README 版本徽章 0.5.2 → 0.6.0（此前落后于 CHANGELOG）
@@ -120,7 +120,7 @@
 **结构独立**：
 - 从上游爬虫项目内抽离为独立模块
 - 目录分层：`cleaner/`（引擎）`cli/`（命令）`rules/`（规则数据）`tests/`（验收）`docs/`（文档）`output/`（运行时输出）
-- 解耦 `upstream.config` 依赖（工具路径读 `.env`、KB 参数化、输出到 `output/`）
+- 解耦上游爬虫 config 依赖（工具路径读 `.env`、KB 参数化、输出到 `output/`）
 - `.env.example` 工具路径模板（开源用）；`requirements.txt` 独立依赖
 
 **验收**：`tests/test_acceptance.py` 14/14 通过；40 篇知乎全量清洗（残留 0、正文完整）输出到独立项目；爬虫项目原文件已删（独立项目为唯一来源）
