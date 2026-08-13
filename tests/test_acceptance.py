@@ -6,7 +6,8 @@
 import os, subprocess, sys, time
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJ = os.path.abspath(os.path.join(SCRIPT_DIR, ".."))  # 项目根
-ZHI_HU = os.path.abspath(os.path.join(PROJ, "..", "本地样本", "清洗调研"))  # 本机完整样本目录
+# 知乎完整样本目录：经环境变量指定（本机完整验证时设），缺失自动 SKIP；不硬编码本机路径
+ZHI_HU = os.environ.get("CLEAN_TEST_ZHI_HU", "")
 sys.path.insert(0, PROJ)
 
 from cleaner import cleaning as c

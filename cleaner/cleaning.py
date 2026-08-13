@@ -872,7 +872,7 @@ def _preview(filepath: str, text: str, engine: str, limit: int = 300) -> str:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="文本清洗(cleaner.cleaning)")
+    parser = argparse.ArgumentParser(description="文本清洗(text-cleaning-engine)")
     parser.add_argument("--file", help="清洗单个文件")
     parser.add_argument("--dir", help="批量清洗目录(递归)")
     parser.add_argument("--suffix", default="html", help="批量时的文件后缀(默认 html)")
