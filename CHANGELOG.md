@@ -6,7 +6,6 @@ All notable changes to text-cleaning-engine are documented here, following [Keep
 **Added**
 - `CONTRIBUTING.md` + `SECURITY.md`: contribution guidelines and security policy
 - GitHub Actions CI (`.github/workflows/ci.yml`): runs all three suites on Python 3.10 / 3.11 / 3.12
-- Overall open-source acceptance report `docs/开源发布验收报告_v2.0.md`
 
 **Changed**
 - README / README_zh rewritten to open-source standards: TOC, expanded badges (CI / stars / last-commit), Quick Start, Configuration reference, Running Tests, Contributing, FAQ

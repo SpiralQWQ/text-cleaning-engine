@@ -219,10 +219,7 @@ python _tools/_verify_10rounds.py
 |-----|----------------|
 | [`docs/视频转写清洗方案_v1.0.md`](docs/视频转写清洗方案_v1.0.md) | design of transcript (OCR/ASR) cleaning rules |
 | [`docs/接口对接/接口对接报告.md`](docs/接口对接/接口对接报告.md) | input contract: transcript JSON → clean JSON (format / red lines / API + examples) |
-| [`docs/规则变更日志_v1.0.md`](docs/规则变更日志_v1.0.md) | changelog of `cleaning_rules.yaml` |
 | [`docs/开源许可合规_v1.0.md`](docs/开源许可合规_v1.0.md) | dependency-license compliance (AGPL-3.0 feasibility) |
-| [`docs/开源发布验收报告_v1.0.md`](docs/开源发布验收报告_v1.0.md) | open-source release acceptance |
-| [`docs/穷举测试验收报告_v1.0.md`](docs/穷举测试验收报告_v1.0.md) | exhaustive test acceptance (122 paths) |
 
 ## Contributing
 

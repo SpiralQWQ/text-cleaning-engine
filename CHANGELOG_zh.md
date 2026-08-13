@@ -6,7 +6,6 @@
 **新增**
 - `CONTRIBUTING.md` + `SECURITY.md`：贡献指南与安全政策
 - GitHub Actions CI（`.github/workflows/ci.yml`）：Python 3.10 / 3.11 / 3.12 三版本全量测试
-- 总体开源验收报告 `docs/开源发布验收报告_v2.0.md`
 
 **变更**
 - README / README_zh 按开源规范重写：目录、扩充徽章（CI / stars / last-commit）、快速上手、配置表、运行测试、贡献、常见问题
