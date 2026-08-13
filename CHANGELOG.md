@@ -1,6 +1,17 @@
 # Changelog
 All notable changes to text-cleaning-engine are documented here, following [Keep a Changelog](https://keepachangelog.com/en/1.0.0/). Versioning follows [Semantic Versioning](https://semver.org/).
 
+## [0.6.1] — 2026-08-13
+
+**Added**
+- Teaching headings are preserved: `_is_heading_line()` recognizes serial-style
+  titles (`第一章 绪论` / `第1讲 变量` / `1.2`) as headings, never watermarks
+- `keep_headings` white-list expanded with 40 teaching chapter words
+  (`绪论` / `引言` / `小结` / `重点` / `难点` …) so plain-text titles without
+  `#` markers survive watermark removal
+- Benchmark cases for the above in `tests/teaching_benchmark.json`
+  (30 → 35 cases; retention gate stays at 100%)
+
 ## [0.6.0] — 2026-08-13 · Open-source standardization
 
 **Added**

@@ -2,36 +2,182 @@
   "_comment": "教学保留基准集 —— 每行标注期望处理，用于教学保留率门禁。expect ∈ {keep, delete, compress}",
   "_source": "真实 179 帧教学视频转写（英文测试）抽取的典型行",
   "cases": [
-    {"text": "Now that we have the new baby,", "expect": "keep", "count": 36, "note": "教学台词（视频反复播放），保留"},
-    {"text": "由于现在有了新宝宝", "expect": "keep", "note": "中文翻译（教学讲解），保留"},
-    {"text": "坚持打卡30天听九口语突飞猛进", "expect": "delete", "note": "界面水印，删除"},
-    {"text": "片名：查莉成长日记", "expect": "delete", "note": "界面水印，删除"},
-    {"text": "知识点12345", "expect": "delete", "note": "学习标签（界面固定词），删除"},
-    {"text": "高手盲听", "expect": "delete", "note": "界面学习选项，删除"},
-    {"text": "Listen up.", "expect": "keep", "note": "教学祈使短句，保留"},
-    {"text": "大家听好了（用于多人）", "expect": "keep", "note": "中文翻译，保留"},
-    {"text": "dnrduork", "expect": "delete", "note": "OCR乱码（词典零命中），删除"},
-    {"text": "Chury", "expect": "delete", "note": "OCR乱码，删除"},
-    {"text": "MILK", "expect": "keep", "note": "画面教学英文（牛奶盒标签），保留"},
-    {"text": "Dishuching", "expect": "keep", "note": "画面教学英文（Dishwashing OCR变体），保留"},
-    {"text": "L-Lavndey", "expect": "keep", "note": "画面教学英文（Laundry OCR变体），保留"},
-    {"text": "/'stelar/", "expect": "keep", "note": "音标行，保护"},
-    {"text": "adj.一流的，主要的", "expect": "keep", "note": "单词卡释义，保留"},
-    {"text": "stellar", "expect": "keep", "note": "教学单词卡，保留"},
-    {"text": "less than stellar", "expect": "keep", "note": "教学短语，保留"},
-    {"text": "accommodation", "expect": "keep", "note": "教学单词卡，保留"},
-    {"text": "n.住处，膳宿，住所", "expect": "keep", "note": "单词卡释义，保留"},
-    {"text": "Okay, everybody. Listen up.", "expect": "keep", "note": "完整教学台词，保留"},
-    {"text": "So. The plan is to head up to the mountains for a few days.", "expect": "keep", "note": "完整教学台词，保留"},
-    {"text": "D-Dishuching", "expect": "keep", "note": "画面教学英文，保留"},
-    {"text": "Laundry", "expect": "keep", "note": "画面教学英文，保留"},
-    {"text": "MILR", "expect": "delete", "note": "OCR乱码（MILK变体但词典零命中），删除"},
-    {"text": "MMOW", "expect": "delete", "note": "OCR乱码，删除"},
-    {"text": "MEO", "expect": "delete", "note": "OCR乱码，删除"},
-    {"text": "916", "expect": "delete", "note": "纯数字孤立行（无上下文），删除"},
-    {"text": "谢谢", "expect": "keep", "note": "中文教学内容，保留"},
-    {"text": "爱说英语的福安", "expect": "delete", "note": "答主水印，删除"},
-    {"text": "pure english subtitles", "expect": "keep", "note": "教学英文，保留"}
+    {
+      "text": "Now that we have the new baby,",
+      "expect": "keep",
+      "count": 36,
+      "note": "教学台词（视频反复播放），保留"
+    },
+    {
+      "text": "由于现在有了新宝宝",
+      "expect": "keep",
+      "note": "中文翻译（教学讲解），保留"
+    },
+    {
+      "text": "坚持打卡30天听九口语突飞猛进",
+      "expect": "delete",
+      "note": "界面水印，删除"
+    },
+    {
+      "text": "片名：查莉成长日记",
+      "expect": "delete",
+      "note": "界面水印，删除"
+    },
+    {
+      "text": "知识点12345",
+      "expect": "delete",
+      "note": "学习标签（界面固定词），删除"
+    },
+    {
+      "text": "高手盲听",
+      "expect": "delete",
+      "note": "界面学习选项，删除"
+    },
+    {
+      "text": "Listen up.",
+      "expect": "keep",
+      "note": "教学祈使短句，保留"
+    },
+    {
+      "text": "大家听好了（用于多人）",
+      "expect": "keep",
+      "note": "中文翻译，保留"
+    },
+    {
+      "text": "dnrduork",
+      "expect": "delete",
+      "note": "OCR乱码（词典零命中），删除"
+    },
+    {
+      "text": "Chury",
+      "expect": "delete",
+      "note": "OCR乱码，删除"
+    },
+    {
+      "text": "MILK",
+      "expect": "keep",
+      "note": "画面教学英文（牛奶盒标签），保留"
+    },
+    {
+      "text": "Dishuching",
+      "expect": "keep",
+      "note": "画面教学英文（Dishwashing OCR变体），保留"
+    },
+    {
+      "text": "L-Lavndey",
+      "expect": "keep",
+      "note": "画面教学英文（Laundry OCR变体），保留"
+    },
+    {
+      "text": "/'stelar/",
+      "expect": "keep",
+      "note": "音标行，保护"
+    },
+    {
+      "text": "adj.一流的，主要的",
+      "expect": "keep",
+      "note": "单词卡释义，保留"
+    },
+    {
+      "text": "stellar",
+      "expect": "keep",
+      "note": "教学单词卡，保留"
+    },
+    {
+      "text": "less than stellar",
+      "expect": "keep",
+      "note": "教学短语，保留"
+    },
+    {
+      "text": "accommodation",
+      "expect": "keep",
+      "note": "教学单词卡，保留"
+    },
+    {
+      "text": "n.住处，膳宿，住所",
+      "expect": "keep",
+      "note": "单词卡释义，保留"
+    },
+    {
+      "text": "Okay, everybody. Listen up.",
+      "expect": "keep",
+      "note": "完整教学台词，保留"
+    },
+    {
+      "text": "So. The plan is to head up to the mountains for a few days.",
+      "expect": "keep",
+      "note": "完整教学台词，保留"
+    },
+    {
+      "text": "D-Dishuching",
+      "expect": "keep",
+      "note": "画面教学英文，保留"
+    },
+    {
+      "text": "Laundry",
+      "expect": "keep",
+      "note": "画面教学英文，保留"
+    },
+    {
+      "text": "MILR",
+      "expect": "delete",
+      "note": "OCR乱码（MILK变体但词典零命中），删除"
+    },
+    {
+      "text": "MMOW",
+      "expect": "delete",
+      "note": "OCR乱码，删除"
+    },
+    {
+      "text": "MEO",
+      "expect": "delete",
+      "note": "OCR乱码，删除"
+    },
+    {
+      "text": "916",
+      "expect": "delete",
+      "note": "纯数字孤立行（无上下文），删除"
+    },
+    {
+      "text": "谢谢",
+      "expect": "keep",
+      "note": "中文教学内容，保留"
+    },
+    {
+      "text": "爱说英语的福安",
+      "expect": "delete",
+      "note": "答主水印，删除"
+    },
+    {
+      "text": "pure english subtitles",
+      "expect": "keep",
+      "note": "教学英文，保留"
+    },
+    {
+      "text": "第一章 绪论",
+      "expect": "keep",
+      "note": "教学标题(序号式+章节词)，无#标记纯文本，防被当水印误删"
+    },
+    {
+      "text": "第1讲 变量",
+      "expect": "keep",
+      "note": "教学标题(阿拉伯数字序号)，防被当水印误删"
+    },
+    {
+      "text": "第二讲 数据结构",
+      "expect": "keep",
+      "note": "教学标题(中文数字序号)，防被当水印误删"
+    },
+    {
+      "text": "第5节 案例分析",
+      "expect": "keep",
+      "note": "教学标题(第X节)，防被当水印误删"
+    },
+    {
+      "text": "第3章 分类与回归",
+      "expect": "keep",
+      "note": "教学标题(第X章)，防被当水印误删"
+    }
   ],
   "_pass_metric": "教学保留率 = 该保留的保留数 / 教学样本总数 ≥ 0.95"
 }

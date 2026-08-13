@@ -470,12 +470,35 @@ def _is_teaching_line(line: str) -> bool:
     return False
 
 
+def _is_heading_line(line: str) -> bool:
+    """教学标题识别: 序号式标题(第一章/第1讲/1.2) → 永不判水印。
+
+    无 # 标记的纯文本章节标题("第一章 绪论")独立成行且短(≤12字), 会被
+    _is_watermark_candidate 误判为答主水印/孤立短行而误删(教学 md 常见形态)。
+    答主昵称不带"第X[章讲节]"序号、也不是教学标题词, 识别它们不会误伤。
+    keep_headings 白名单词由调用处"not in _KEEP_HEADINGS"已豁免, 此处只管序号式。
+    """
+    s = line.strip()
+    if not s:
+        return False
+    # ① 序号式标题: 以"第X[章讲节篇课部分]"开头(可带后续标题文字, 如"第一章 绪论"/"第1讲 变量")
+    if re.match(r"^第[一二三四五六七八九十百0-9]+\s*[章讲节篇课部分]", s):
+        return True
+    # ② 数字小节: 1.2 / 1.2.3(含"."符号, 原 _is_watermark_candidate 已排除, 兜底防改判)
+    if re.match(r"^\d+(\.\d+)+$", s):
+        return True
+    return False
+
+
 def _is_watermark_candidate(line: str) -> bool:
     """水印(答主昵称)候选: 独立短行(≤12字符) + 无标点/符号 + 非纯数字行。
 
     答主防爬插眼形如: 正文句子\n徐火山\n正文句子\n
-    注: 教学短行(音标/翻译/单词卡)由 _is_teaching_line 保护, 不判为水印。
+    注: 教学短行(音标/翻译/单词卡)由 _is_teaching_line 保护, 不判为水印;
+        教学标题(第一章/第1讲/白名单词)由 _is_heading_line/keep_headings 保护, 不判为水印。
     """
+    if _is_heading_line(line):
+        return False
     if not line or len(line) > 12:
         return False
     # 含非中文/字母/数字/空格字符(标点/&/括号等) → 排除

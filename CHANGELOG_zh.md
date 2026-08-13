@@ -1,6 +1,15 @@
 # 变更日志
 所有对 text-cleaning-engine 的重大变更记录于此，遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)。版本遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [0.6.1] — 2026-08-13
+
+**新增**
+- 教学标题保留：`_is_heading_line()` 识别序号式标题（`第一章 绪论` / `第1讲 变量` /
+  `1.2`）为标题，永不判水印
+- `keep_headings` 白名单扩充 40 个教学章节词（`绪论` / `引言` / `小结` / `重点` /
+  `难点` 等），无 `#` 标记的纯文本短标题不再被水印规则误删
+- 上述用例入基准 `tests/teaching_benchmark.json`（30 → 35 条，保留率门禁仍 100%）
+
 ## [0.6.0] — 2026-08-13 · 开源规范化
 
 **新增**
