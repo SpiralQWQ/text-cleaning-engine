@@ -9,10 +9,10 @@
     知识库_clean/{词}/{类别}/{原标题}.meta.json   # 清洗元数据
 
 用法:
-    python tools/clean_kb.py                # 全量清洗(默认 html)
-    python tools/clean_kb.py --suffix md    # 只清洗 md
-    python tools/clean_kb.py --dry-run      # 只统计不清洗
-    python tools/clean_kb.py --anonymize    # 清洗+presidio PII 脱敏(发布用)
+    python cli/clean_batch.py               # 全量清洗(默认 html)
+    python cli/clean_batch.py --suffix md   # 只清洗 md
+    python cli/clean_batch.py --dry-run     # 只统计不清洗
+    python cli/clean_batch.py --anonymize   # 清洗+presidio PII 脱敏(发布用)
 """
 import argparse
 import hashlib
