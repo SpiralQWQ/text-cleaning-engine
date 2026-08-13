@@ -1,13 +1,25 @@
 # Changelog
 All notable changes to text-cleaning-engine are documented here, following [Keep a Changelog](https://keepachangelog.com/en/1.0.0/). Versioning follows [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+**Fixed**
+- `cleaner/cleaning.py`: removed stale internal module name (`cleaner`) from the module docstring and CLI description
+- `tests/test_acceptance.py`: hardcoded local sample path → `CLEAN_TEST_ZHI_HU` env var (missing → graceful SKIP)
+
+**Removed**
+- `tests/verify_zhihu_rag.py`: upstream RAG-index verification script (heavy ML deps, out of scope)
+
+**Changed**
+- `_tools/_verify_10rounds.py`: stale assertions fixed — YAML `version` 3 → 4, acceptance check now SKIP-aware
+- Docs: removed internal references (`export_srt`, internal survey wording)
+
 ## [0.5.3] — 2026-08-12 · Integration entry point
 
 **Added**
 - `cleaner/clean_md.py`: standard Markdown cleaning entry point — `python -m cleaner.clean_md full.md [--anonymize]` → JSON `{ok, cleaned_text, stats}`; callable from external tools via subprocess (e.g. `document-to-markdown`'s clean hook)
 - README integration section: pair with `document-to-markdown` (PDF/Word/PPT → Markdown → clean text → LLM)
 
----
 
 ## [0.5.2] — 2026-08-12 · Exhaustive testing & defensive hardening
 
@@ -25,7 +37,6 @@ All notable changes to text-cleaning-engine are documented here, following [Keep
 
 **Docs**: acceptance report added to `docs/`
 
----
 
 ## [0.5.1] — 2026-08-11 · Open-source release prep
 
@@ -43,7 +54,6 @@ All notable changes to text-cleaning-engine are documented here, following [Keep
 - Removed machine-local paths from code & docs (privacy cleanup); only author name + donation retained
 - `.gitignore` excludes `.env` / `logs` / `output` / caches
 
----
 
 ## [0.5.0] — 2026-08-11 · Transcript content protection (A–E)
 
@@ -69,7 +79,6 @@ All notable changes to text-cleaning-engine are documented here, following [Keep
 
 **Acceptance**: T1–T12 reviewed one by one; verified on a real 179-frame transcript (subtitle compression kept / garbling removed / broken lines merged / teaching kept / watermarks deleted); teaching retention 100%; zero regression on the original 14-item suite — see `docs/验收报告_v3.0.md`
 
----
 
 ## [0.4.0] — 2026-08-11 · Interface adaptation (stage 0, transcript-JSON input)
 
@@ -92,7 +101,6 @@ All notable changes to text-cleaning-engine are documented here, following [Keep
 
 **Acceptance**: T1–T7 reviewed one by one; 15/15 interface red lines honored; `_clean.json` structure-preserving; original 14-item suite all green (zero regression)
 
----
 
 ## [0.3.0] — 2026-08-10 · Standalone module
 
@@ -104,7 +112,6 @@ All notable changes to text-cleaning-engine are documented here, following [Keep
 
 **Acceptance**: `tests/test_acceptance.py` 14/14; 40-article zhihu full clean (0 residual, body intact) to the standalone project; upstream-crawler originals removed (standalone is the single source)
 
----
 
 ## [0.2.0] — 2026-08-10 · Video-transcript form + engineering hardening
 
@@ -113,7 +120,7 @@ All notable changes to text-cleaning-engine are documented here, following [Keep
 - `video_asr` rule group: ASR punctuation-garbling normalization (`,,`→`,`、`..`→`.`、`??`→`?`、`,.`→`.`, universal)
 - Engine selects rules by form (`clean_text(form=...)`), each form uses its own groups
 - MD code-block protection (``` fenced content not wrongly deleted)
-- Transcript cleaning design doc (`视频转写清洗方案.md`)
+- Transcript cleaning design doc (`视频转写清洗方案_v1.0.md`)
 
 **Engineering hardening (E)**
 - E1/E9 incremental cleaning + crash-resume: file hash + rule fingerprint; unchanged skipped, rule change re-cleans, interrupted resumes without loss
@@ -122,13 +129,12 @@ All notable changes to text-cleaning-engine are documented here, following [Keep
 - E4 parallel batch cleaning (`--parallel N`)
 - E5 post-clean dedup check (`--dedup`, exact md5 + approximate similarity)
 - E6 quality-assertion extension (English videos no longer false-report "low Chinese")
-- E7 rule version management (YAML `version` + `规则变更日志.md`)
+- E7 rule version management (YAML `version` + `规则变更日志_v1.0.md`)
 - E8 cleaning stats report (`_clean_report.json`, historical accumulation)
 - E11 worker failure retry ×3
 
 **Acceptance**: suite extended to 14 items all green (incl. video_ocr / video_asr / MD / rule validation); 40 zhihu articles incrementally skipped, 0 residual, body intact, 0 dedup.
 
----
 
 ## [0.1.0] — 2026-08-10 · Initial workflow
 

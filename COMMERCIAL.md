@@ -29,9 +29,10 @@ etc.). Each license is non-exclusive and issued to a named licensee.
 
 ## Not covered
 
-- The commercial license does **not** grant rights to the **content** the tool
-  downloads. Downloaded videos and images remain the property of their
-  original creators; reusing them commercially is your own responsibility
-  under copyright law.
-- Third-party dependencies (FunASR, PaddleOCR, douyin-downloader, yt-dlp, …)
-  keep their own licenses.
+- The commercial license does **not** grant rights to any **content** you process
+  with the tool. Source text, transcripts, and other input data remain the
+  property of their original owners; reusing them commercially is your own
+  responsibility under copyright law.
+- Third-party dependencies (`PyYAML`, `clean-text`, `snownlp`, `jsonschema`,
+  `sentencex`, and the optional `trafilatura` / `presidio` venvs) keep their
+  own licenses (MIT / Apache-2.0).

@@ -12,6 +12,10 @@ os.chdir(_PROJ)
 from cleaner.clean_asr_json import clean_asr_json, _dedup_segments, _clean_text_segment, _segment_key
 from cleaner import cleaning as c
 
+# 跨平台路径（Linux/macOS CI 用 os.path.join，反斜杠字面量会崩）
+_EXAMPLE_JSON = os.path.join("docs", "接口对接", "示例文件", "英文测试_示例.json")
+_EXAMPLE_VISUAL = os.path.join("docs", "接口对接", "示例文件", "英文测试_示例_visual.txt")
+
 REPORT = []  # (轮名, 通过, 总数)
 def round_report(name, ok, total):
     REPORT.append((name, ok, total))
@@ -26,7 +30,7 @@ def r1():
         total += 1
         if cond: ok += 1; print(f"  ✅ {name}")
         else: print(f"  ❌ {name}")
-    raw = json.load(open(r"docs\接口对接\示例文件\英文测试_示例.json", encoding="utf-8"))
+    raw = json.load(open(_EXAMPLE_JSON, encoding="utf-8"))
     clean = clean_asr_json(raw)
     check("segments 6→5（去重重复记录）", len(clean["segments"])==5)
     check("sentences 6→6（句全保留）", len(clean["sentences"])==6)
@@ -39,7 +43,7 @@ def r1():
     rev = [s for s in clean["segments"] if s["review"]]
     check("review=true 段保留", len(rev)==1 and "S tla r" in rev[0]["text"])
     # visual
-    rawv = open(r"docs\接口对接\示例文件\英文测试_示例_visual.txt", encoding="utf-8").read()
+    rawv = open(_EXAMPLE_VISUAL, encoding="utf-8").read()
     cleanv = c.clean_text(rawv, form="video_ocr")["text"]
     lines = [l for l in cleanv.split("\n") if l.strip()]
     wm = [l for l in lines if not l.startswith("画面") and not any(k in l for k in ["MILK","Dishuching","Lavndey","语的"])]
@@ -138,7 +142,7 @@ def r4():
 def r5():
     print("\n# R5 重复稳定性（同一输入多次结果一致）")
     ok = total = 0
-    raw = json.load(open(r"docs\接口对接\示例文件\英文测试_示例.json", encoding="utf-8"))
+    raw = json.load(open(_EXAMPLE_JSON, encoding="utf-8"))
     hashes = set()
     for i in range(10):
         r = clean_asr_json(json.loads(json.dumps(raw)))
@@ -207,7 +211,7 @@ def r8():
         total += 1
         if cond: ok += 1; print(f"  ✅ {name}")
         else: print(f"  ❌ {name}")
-    raw = json.load(open(r"docs\接口对接\示例文件\英文测试_示例.json", encoding="utf-8"))
+    raw = json.load(open(_EXAMPLE_JSON, encoding="utf-8"))
     clean = clean_asr_json(raw)
     def norm(t): return re.sub(r"[^a-z0-9一-鿿]", "", t.lower())
     # 每个保留段 时间戳/confidence/review 与原文一致
@@ -291,7 +295,7 @@ def r10():
     s = json.dumps(r, ensure_ascii=False)
     check("输出可 JSON 序列化", len(s) > 0)
     # 与真实示例再跑一遍（组合确认）
-    raw = json.load(open(r"docs\接口对接\示例文件\英文测试_示例.json", encoding="utf-8"))
+    raw = json.load(open(_EXAMPLE_JSON, encoding="utf-8"))
     check("真实示例最终可用", len(clean_asr_json(raw)["segments"])==5)
     round_report("R10 综合压力", ok, total)
 
