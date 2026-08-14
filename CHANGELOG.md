@@ -17,6 +17,7 @@ All notable changes to text-cleaning-engine are documented here, following [Keep
 **Added**
 - `CONTRIBUTING.md` + `SECURITY.md`: contribution guidelines and security policy
 - GitHub Actions CI (`.github/workflows/ci.yml`): runs all three suites on Python 3.10 / 3.11 / 3.12
+- Open-source turnaround acceptance report checked in: `docs/acceptance-report-v0.6.1.md`
 
 **Changed**
 - README / README_zh rewritten to open-source standards: TOC, expanded badges (CI / stars / last-commit), Quick Start, Configuration reference, Running Tests, Contributing, FAQ
@@ -143,7 +144,7 @@ All notable changes to text-cleaning-engine are documented here, following [Keep
 - `video_asr` rule group: ASR punctuation-garbling normalization (`,,`→`,`、`..`→`.`、`??`→`?`、`,.`→`.`, universal)
 - Engine selects rules by form (`clean_text(form=...)`), each form uses its own groups
 - MD code-block protection (``` fenced content not wrongly deleted)
-- Transcript cleaning design doc (`视频转写清洗方案_v1.0.md`)
+- Transcript cleaning design doc (`docs/transcript-cleaning-design-v1.0.md`)
 
 **Engineering hardening (E)**
 - E1/E9 incremental cleaning + crash-resume: file hash + rule fingerprint; unchanged skipped, rule change re-cleans, interrupted resumes without loss

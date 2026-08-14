@@ -15,6 +15,7 @@
 **新增**
 - `CONTRIBUTING.md` + `SECURITY.md`：贡献指南与安全政策
 - GitHub Actions CI（`.github/workflows/ci.yml`）：Python 3.10 / 3.11 / 3.12 三版本全量测试
+- 转正验收报告入库 `docs/acceptance-report-v0.6.1.md`
 
 **变更**
 - README / README_zh 按开源规范重写：目录、扩充徽章（CI / stars / last-commit）、快速上手、配置表、运行测试、贡献、常见问题
@@ -141,7 +142,7 @@
 - `video_asr` 规则分组：ASR 标点乱码规范化（`,,`→`,`、`..`→`.`、`??`→`?`、`,.`→`.`，通用归一化）
 - 引擎按形态选规则（`clean_text(form=...)`），video/json/zhihu 各自用对应分组
 - MD 代码块保护（``` 围栏内内容不误删）
-- 视频转写清洗方案文档（`视频转写清洗方案_v1.0.md`）
+- 视频转写清洗方案文档（`docs/transcript-cleaning-design-v1.0.md`）
 
 **工程完善（E）**
 - E1/E9 增量清洗 + 断点续洗：文件哈希 + 规则指纹，未变跳过、规则变重洗、中断恢复不丢

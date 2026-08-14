@@ -215,7 +215,7 @@ python _tools/_verify_10rounds.py
 
 | 文档 | 内容 |
 |------|------|
-| [`docs/视频转写清洗方案_v1.0.md`](docs/视频转写清洗方案_v1.0.md) | 转写（OCR/ASR）清洗规则设计 |
+| [`docs/transcript-cleaning-design-v1.0.md`](docs/transcript-cleaning-design-v1.0.md) | 转写（OCR/ASR）清洗规则设计 |
 | [`docs/接口对接/接口对接报告.md`](docs/接口对接/接口对接报告.md) | 输入契约：转写 JSON → 干净 JSON（格式 / 红线 / 接口 + 示例） |
 | [`docs/开源许可合规_v1.0.md`](docs/开源许可合规_v1.0.md) | 依赖许可证合规（AGPL-3.0 可行性） |
 

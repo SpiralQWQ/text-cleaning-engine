@@ -217,7 +217,7 @@ python _tools/_verify_10rounds.py
 
 | Doc | What it covers |
 |-----|----------------|
-| [`docs/视频转写清洗方案_v1.0.md`](docs/视频转写清洗方案_v1.0.md) | design of transcript (OCR/ASR) cleaning rules |
+| [`docs/transcript-cleaning-design-v1.0.md`](docs/transcript-cleaning-design-v1.0.md) | design of transcript (OCR/ASR) cleaning rules |
 | [`docs/接口对接/接口对接报告.md`](docs/接口对接/接口对接报告.md) | input contract: transcript JSON → clean JSON (format / red lines / API + examples) |
 | [`docs/开源许可合规_v1.0.md`](docs/开源许可合规_v1.0.md) | dependency-license compliance (AGPL-3.0 feasibility) |
 
