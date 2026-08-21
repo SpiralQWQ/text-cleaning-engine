@@ -19,22 +19,28 @@ import os
 import sys
 
 
-def clean_md(filepath: str, anonymize: bool = False, form: str = "markdown") -> dict:
+def clean_md(filepath: str, anonymize: bool = False, form: str = "markdown",
+             watermark_only: bool = False) -> dict:
     """清洗 markdown 文件 → 返回结果 dict（JSON 序列化友好）。
 
     Args:
         filepath: .md 文件路径。
         anonymize: 是否 presidio PII 脱敏（默认 False，依赖 PRESIDIO_PY 配置）。
         form: 清洗形态（默认 "markdown" 走 common 规则；可传 "video_ocr" 等）。
+        watermark_only: 仅渠道水印清除（noise_inline），不做其他规则——供转写工具
+            （document-to-markdown）在块级清洗后精准兜底渠道广告水印。
 
     Returns:
         {"ok", "cleaned_text", "engine", "stats"}；文件不存在/异常时 ok=false + "error"。
     """
     if not os.path.isfile(filepath):
         return {"ok": False, "error": f"文件不存在或不是文件: {filepath}"}
-    from cleaner.cleaning import clean_text
+    from cleaner.cleaning import clean_text, clean_watermark_text
     raw = open(filepath, encoding="utf-8", errors="replace").read()
-    res = clean_text(raw, anonymize=anonymize, form=form)
+    if watermark_only:
+        res = clean_watermark_text(raw)
+    else:
+        res = clean_text(raw, anonymize=anonymize, form=form)
     return {
         "ok": bool(res.get("ok")),
         "cleaned_text": res.get("text", ""),
@@ -48,10 +54,13 @@ def main():
     parser.add_argument("file", help="markdown 文件路径")
     parser.add_argument("--anonymize", action="store_true", help="presidio PII 脱敏(需配置)")
     parser.add_argument("--form", default="markdown", help="清洗形态(默认 markdown → common 规则)")
+    parser.add_argument("--watermark-only", action="store_true",
+                        help="仅渠道水印清除(noise_inline)，不做其他规则")
     parser.add_argument("--output", default="", help="同时把清洗结果写入该文件(可选)")
     args = parser.parse_args()
 
-    result = clean_md(args.file, anonymize=args.anonymize, form=args.form)
+    result = clean_md(args.file, anonymize=args.anonymize, form=args.form,
+                      watermark_only=args.watermark_only)
 
     if args.output and result.get("ok"):
         with open(args.output, "w", encoding="utf-8") as f:

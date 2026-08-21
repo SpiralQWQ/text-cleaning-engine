@@ -1,6 +1,21 @@
 # 变更日志
 所有对 text-cleaning-engine 的重大变更记录于此，遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)。版本遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [0.7.0] — 2026-08-21
+
+**新增**
+- `noise_inline`：行内水印移除——渠道广告水印（QQ群/微信/邮箱签名）与正文拼接时，
+  只剥水印段、保留行剩余正文（如 `## 欢迎加入QQ群xxx免费领书！ 1.8 使用TensorFlow`
+  → `## 1.8 使用TensorFlow`）。
+- `clean_watermark_text()`：精准渠道水印入口（只应用 `noise_inline`，不做其他清洗规则），
+  供 document-to-markdown 在块级清洗后兜底文字特征水印（位置/类型清洗抓不到的），
+  全文其他内容不动。
+- `clean_md.py --watermark-only`：CLI 只跑渠道水印清除。
+
+**修复**
+- 渠道水印正则容忍 OCR 变体（识别错字的渠道词），同时绝不匹配目录/代码/教学里的
+  普通"微信公众号"字样（用"（微信号"结构约束）。
+
 ## [0.6.1] — 2026-08-13
 
 **新增**

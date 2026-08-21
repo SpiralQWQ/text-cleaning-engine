@@ -68,10 +68,16 @@ Web scrapers and transcriber pipelines produce text full of **noise**: navigatio
 | Plain text (e.g. zhihu snapshot) | watermark, prompt text, recommendations | clean text |
 | ASR transcript JSON (`text`+`segments`+`sentences`) | punctuation garbling, duplicate records, empty segments | structure-preserving `_clean.json` |
 | Video OCR / visual transcript | frame markers, OCR tags, UI watermarks, split lines, repeated subtitles | clean transcript with teaching kept |
+| Converted markdown (PDF/doc) | channel ad watermarks (QQ-group / WeChat / email) spliced onto body | in-line watermark removed, body kept |
 
 Core capabilities:
 
 - **Multi-action rule engine** (YAML v4): `delete` · `compress_repeat` · `protect_teaching` · `merge_broken_lines`
+- **`noise_inline` in-line watermark removal**: channel ad watermarks (QQ-group / WeChat /
+  email signatures) spliced onto body lines are stripped in-place while the rest of the line
+  is kept (`## 欢迎加入QQ群xxx免费领书！ 1.8 使用TensorFlow` → `## 1.8 使用TensorFlow`);
+  precise `clean_watermark_text()` / `clean_md.py --watermark-only` entry leaves all other
+  content untouched (100% retention)
 - **Transcript content protection (A-E)**: subtitle compression (`原文…[出现N次]`), watermark deletion, OCR-garbling detection, broken-line merging, teaching whitelist
 - **Structure-preserving ASR cleaning**: `start_ms`/`end_ms`/`confidence`/`review` untouched; Chinese teaching segments never deleted
 - **Retention gate**: teaching-keep rate ≥ 95% (benchmarked); empty-output fallback if the cleaner removes > 70%
@@ -204,9 +210,6 @@ python tests/test_acceptance.py
 
 # Teaching-retention gate — guards against over-aggressive rules (≥95%)
 python tests/test_teaching_retention.py
-
-# 10-round deep verification (fuzz, Unicode, performance, red-line compliance)
-python _tools/_verify_10rounds.py
 ```
 
 > Optional external samples: set `CLEAN_TEST_ZHI_HU` (zhihu text dir) and
@@ -218,8 +221,8 @@ python _tools/_verify_10rounds.py
 | Doc | What it covers |
 |-----|----------------|
 | [`docs/transcript-cleaning-design-v1.0.md`](docs/transcript-cleaning-design-v1.0.md) | design of transcript (OCR/ASR) cleaning rules |
-| [`docs/接口对接/接口对接报告.md`](docs/接口对接/接口对接报告.md) | input contract: transcript JSON → clean JSON (format / red lines / API + examples) |
-| [`docs/开源许可合规_v1.0.md`](docs/开源许可合规_v1.0.md) | dependency-license compliance (AGPL-3.0 feasibility) |
+| [`docs/interface-docs/interface-report.md`](docs/interface-docs/interface-report.md) | input contract: transcript JSON → clean JSON (format / red lines / API + examples) |
+| [`docs/license-compliance.md`](docs/license-compliance.md) | dependency-license compliance (AGPL-3.0 feasibility) |
 
 ## Contributing
 

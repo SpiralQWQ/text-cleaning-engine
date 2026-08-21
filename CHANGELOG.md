@@ -1,6 +1,22 @@
 # Changelog
 All notable changes to text-cleaning-engine are documented here, following [Keep a Changelog](https://keepachangelog.com/en/1.0.0/). Versioning follows [Semantic Versioning](https://semver.org/).
 
+## [0.7.0] — 2026-08-21
+
+**Added**
+- `noise_inline`: in-line watermark removal — channel ad watermarks (QQ-group / WeChat /
+  email signatures) spliced onto body text are stripped while the rest of the line is kept
+  (e.g. `## 欢迎加入QQ群xxx免费领书！ 1.8 使用TensorFlow` → `## 1.8 使用TensorFlow`).
+- `clean_watermark_text()`: precise watermark-only entry (applies only `noise_inline`,
+  no other cleaning rules) for document-to-markdown to run after block-level cleaning —
+  removes text-feature watermarks that position/type-based cleaning misses, leaving all
+  other content untouched.
+- `clean_md.py --watermark-only`: CLI flag to run only watermark removal.
+
+**Fixed**
+- Watermark regex tolerates OCR variants (mis-OCRed channel words) while never matching
+  plain "微信公众号" in TOC / code / teaching lines (guarded by the "（微信号" structure).
+
 ## [0.6.1] — 2026-08-13
 
 **Added**

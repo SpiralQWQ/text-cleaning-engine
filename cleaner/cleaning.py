@@ -128,6 +128,10 @@ _RULES_SCHEMA = {
             "type": "object",
             "additionalProperties": {"type": "array", "items": {"type": "string"}},
         },
+        "noise_inline": {  # 行内水印移除正则(按分组): 渠道广告与正文拼接时只剥水印段, 保留行剩余
+            "type": "object",
+            "additionalProperties": {"type": "array", "items": {"type": "string"}},
+        },
         "noise_regex": {"type": "array", "items": {"type": "string"}},
         "keep_headings": {"type": "array", "items": {"type": "string"}},
         "lanmu_buttons": {"type": "array", "items": {"type": "string"}},
@@ -180,6 +184,12 @@ _NOISE_SUBSTR = (sum((list(v) for v in _RULES.get("noise_substr", {}).values()),
                  if _RULES else _DEFAULT_SUBSTR)
 _NOISE_RE = [re.compile(p) for p in _RULES.get("noise_regex", [])] if _RULES \
     else [re.compile(p) for p in _DEFAULT_REGEX]
+# 行内水印移除（noise_inline）：渠道广告水印与正文拼接时，只剥水印段、保留行剩余正文。
+# 按分组存（common + 各场景），与 noise_substr 同构；_NOISE_INLINE_ALL 为全部分组合并。
+_NOISE_INLINE_GROUPS = ({k: [re.compile(p) for p in v]
+                         for k, v in _RULES.get("noise_inline", {}).items()}
+                        if _RULES else {})
+_NOISE_INLINE_ALL = [rx for g in _NOISE_INLINE_GROUPS.values() for rx in g]
 _KEEP_HEADINGS = set(_RULES.get("keep_headings", [])) if _RULES else _DEFAULT_HEADINGS
 _LANMU_BUTTONS = set(_RULES.get("lanmu_buttons", [])) if _RULES else _DEFAULT_LANMU
 _UI_SHORT = sum((list(v) for v in _RULES.get("ui_short", {}).values()), []) if _RULES else []
@@ -533,26 +543,31 @@ def _is_question_title(line: str) -> bool:
     return False
 
 
-def remove_chinese_noise(text: str, noise_substr: list[str] | None = None) -> str:
-    """Stage3 自研中文规则(#92): 去答主水印 + 固定噪音 + 尾部推荐区截断。
+def remove_chinese_noise(text: str, noise_substr: list[str] | None = None,
+                         noise_inline: list | None = None) -> str:
+    """Stage3 自研中文规则(#92): 去答主水印 + 固定噪音 + 尾部推荐区截断 + 行内水印移除。
 
     Args:
         text: 待清洗文本。
         noise_substr: 指定形态的噪音词(common+对应分组); None 用全部分组。
+        noise_inline: 行内水印移除正则(common+对应分组); None 用全部分组。
 
     规则(基于 40 篇知乎快照的真实噪音分布设计, 保守优先防误删正文):
       1. 顶部导航行(综合用户论文AI...) → 删本行 + 紧随的搜索词行
       2. 固定噪音行(黑名单子串 + 正则: 评论数/时间/热搜/ICP/AI标记等) → 删
-      3. 推荐栏目按钮(独立短行精确匹配: 量化成果/STAR法则等) → 删
-      4. 答主水印: 出现 ≥2 次的"无标点短行"候选 → 删
+      3. 行内水印(noise_inline): 渠道广告水印与正文拼接时只剥水印段, 保留行剩余正文
+         (如 "## 欢迎加入QQ群xxx免费领书！ 1.8 使用TensorFlow" → "## 1.8 使用TensorFlow")
+      4. 推荐栏目按钮(独立短行精确匹配: 量化成果/STAR法则等) → 删
+      5. 答主水印: 出现 ≥2 次的"无标点短行"候选 → 删
          (正文小节标题在白名单内保护; "量化成果/STAR法则"等栏目词作句子时不受影响)
-      5. "大家都在搜"之后的热搜/备案 → 截断
-      6. 广告行(下载同款模板/AI诊断工具/简历神器) → 删
+      6. "大家都在搜"之后的热搜/备案 → 截断
+      7. 广告行(下载同款模板/AI诊断工具/简历神器) → 删
 
     零宽字符/URL 归 Stage1(clean-text); PII 归 Stage5(presidio)。
     低频(1次)水印保守保留, 避免误删正文短句。
     """
     noise = noise_substr if noise_substr is not None else _NOISE_SUBSTR
+    inline_rx = noise_inline if noise_inline is not None else _NOISE_INLINE_ALL
 
     def _is_noise(line: str) -> bool:
         if any(s in line for s in noise):
@@ -579,6 +594,14 @@ def remove_chinese_noise(text: str, noise_substr: list[str] | None = None) -> st
         if in_code:  # 代码块内容: 不判断噪音/水印, 原样保留
             kept.append(l)
             continue
+        # 行内水印移除(noise_inline): 渠道广告水印与正文拼接时剥水印段、保留正文。
+        # 例: "## 欢迎加入QQ群xxx免费领书！ 1.8 使用TensorFlow" → "## 1.8 使用TensorFlow"
+        if inline_rx:
+            for rx in inline_rx:
+                l = rx.sub("", l)
+            l = l.strip()
+            if not l:  # 整行是水印 → 行变空 → 删
+                continue
         if "综合用户论文AI" in l:  # 顶部导航 → 删本行 + 下一行(搜索词)
             skip_next = True
             continue
@@ -771,6 +794,10 @@ def clean_text(raw: str, trafilatura_py: str = "", anonymize: bool = False,
         # 按形态选规则分组(common + 指定分组)
         groups = _RULES.get("noise_substr", {})
         form_substr = list(groups.get("common", [])) + list(groups.get(form, []))
+        # 行内水印移除正则(common + 指定分组)
+        form_inline = (list(_NOISE_INLINE_GROUPS.get("common", []))
+                       + list(_NOISE_INLINE_GROUPS.get(form, []))
+                       if _NOISE_INLINE_GROUPS else None)
         # R2: 视频转写先句子归一化(合并OCR拆行), 再跑规则 —— 修复"拆行台词匹配不上"根因
         if form.startswith("video"):
             try:
@@ -778,7 +805,8 @@ def clean_text(raw: str, trafilatura_py: str = "", anonymize: bool = False,
                 text = normalize_sentences(text)
             except ImportError:
                 pass  # sentencex 未装则跳过, 不阻断
-        text = remove_chinese_noise(text, noise_substr=form_substr)
+        text = remove_chinese_noise(text, noise_substr=form_substr,
+                                    noise_inline=form_inline or None)
     else:
         text = remove_chinese_noise(text)
     if anonymize:
@@ -789,6 +817,46 @@ def clean_text(raw: str, trafilatura_py: str = "", anonymize: bool = False,
     result = {"ok": bool(text.strip()), "text": text, "engine": engine, "stats": stats}
     result["valid"], result["schema_errors"] = validate_schema(result)
     return result
+
+
+def clean_watermark_text(text: str) -> dict:
+    """精准渠道水印清除：仅应用 noise_inline 行内水印移除，不做其他清洗规则。
+
+    供 document-to-markdown 等转写工具在块级清洗（页眉/页脚/页码）之后，兜底
+    渠道广告水印（QQ群/微信/邮箱等文字特征水印——块级位置感知抓不到的）。
+    只剥水印段、保留拼行正文；代码块内容不处理；不动日期/重复/其他噪音。
+
+    Returns:
+        {"ok", "text", "engine", "stats"}；stats.removed_lines = 有内容被剥的行数。
+    """
+    if not _NOISE_INLINE_ALL:
+        return {"ok": True, "text": text, "engine": "watermark",
+                "stats": {"removed_lines": 0}}
+    lines = text.split("\n")
+    out: list[str] = []
+    in_code = False
+    removed = 0
+    for l in lines:
+        if l.strip().startswith("```"):  # 代码块围栏保护
+            in_code = not in_code
+            out.append(l)
+            continue
+        if in_code:  # 代码块内容原样保留
+            out.append(l)
+            continue
+        new = l
+        for rx in _NOISE_INLINE_ALL:
+            new = rx.sub("", new)
+        if new != l:
+            removed += 1
+        if new.strip():  # 拼行剥水印后仍有正文 → 保留剥后行
+            out.append(new)
+        elif not l.strip():  # 原空行保留（结构），不做处理
+            out.append(l)
+        # 原非空但整行被剥空(纯水印行) → 删除
+    cleaned = "\n".join(out)
+    return {"ok": True, "text": cleaned, "engine": "watermark",
+            "stats": {"removed_lines": removed}}
 
 
 # ─────────────────────── CLI ───────────────────────

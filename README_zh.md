@@ -68,10 +68,15 @@
 | 纯文本（如知乎快照） | 水印、提示文本、推荐区 | 干净文本 |
 | ASR 转写 JSON（`text`+`segments`+`sentences`） | 标点乱码、重复记录、空段 | 保结构 `_clean.json` |
 | 视频 OCR / 视觉转写 | 帧标记、OCR 标签、界面水印、拆行、重复字幕 | 干净转写（教学保留） |
+| 转写的 Markdown（PDF/文档） | 拼在正文上的渠道广告水印（QQ群/微信/邮箱） | 行内剥水印，正文保留 |
 
 核心能力：
 
 - **多动作规则引擎**（YAML v4）：`delete` · `compress_repeat` · `protect_teaching` · `merge_broken_lines`
+- **`noise_inline` 行内水印移除**：渠道广告水印（QQ群/微信/邮箱签名）拼在正文行上时
+  原地剥除、保留行其余内容（`## 欢迎加入QQ群xxx免费领书！ 1.8 使用TensorFlow`
+  → `## 1.8 使用TensorFlow`）；精准入口 `clean_watermark_text()` / `clean_md.py
+  --watermark-only` 不动全文其他内容（保留率 100%）
 - **转写内容保护（A-E）**：字幕压缩（`原文…[出现N次]`）、水印删除、乱码检测、拆行合并、教学白名单
 - **保结构 ASR 清洗**：`start_ms`/`end_ms`/`confidence`/`review` 不改值；中文讲解段永不删
 - **保留率门禁**：教学保留率 ≥ 95%（基准测试）；误删 >70% 自动回退原文
@@ -203,9 +208,6 @@ python tests/test_acceptance.py
 
 # 教学保留率门禁——防规则误删教学（≥95%）
 python tests/test_teaching_retention.py
-
-# 10 轮深度验证（fuzz / Unicode / 性能 / 红线合规）
-python _tools/_verify_10rounds.py
 ```
 
 > 可选外部样本：设置 `CLEAN_TEST_ZHI_HU`（知乎文本目录）与 `CLEAN_TEST_VIDEO_FILE`
@@ -216,8 +218,8 @@ python _tools/_verify_10rounds.py
 | 文档 | 内容 |
 |------|------|
 | [`docs/transcript-cleaning-design-v1.0.md`](docs/transcript-cleaning-design-v1.0.md) | 转写（OCR/ASR）清洗规则设计 |
-| [`docs/接口对接/接口对接报告.md`](docs/接口对接/接口对接报告.md) | 输入契约：转写 JSON → 干净 JSON（格式 / 红线 / 接口 + 示例） |
-| [`docs/开源许可合规_v1.0.md`](docs/开源许可合规_v1.0.md) | 依赖许可证合规（AGPL-3.0 可行性） |
+| [`docs/interface-docs/interface-report.md`](docs/interface-docs/interface-report.md) | 输入契约：转写 JSON → 干净 JSON（格式 / 红线 / 接口 + 示例） |
+| [`docs/license-compliance.md`](docs/license-compliance.md) | 依赖许可证合规（AGPL-3.0 可行性） |
 
 ## 贡献
 
