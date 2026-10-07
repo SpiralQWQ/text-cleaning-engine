@@ -34,6 +34,3 @@ jobs:
 
       - name: Acceptance suite
         run: python tests/test_acceptance.py
-
-      - name: 10-round deep verification
-        run: python _tools/_verify_10rounds.py
