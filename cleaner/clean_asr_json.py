@@ -37,11 +37,22 @@ _PUNCT_PAIRS = [
     (re.compile(r"，{2,}"), "，"),
 ]
 
+# 句首孤立标点：ASR 在「。」后断句，紧跟着的「，」就落到了下一句的开头。
+# _PUNCT_PAIRS 全是两两配对，没有一条针对"串首"，而 .strip() 去的是空白不是标点，
+# 于是句首那个逗号原样活下来，一路流进清洗产物。
+# 只匹配串首连续的一段；句中与句尾的标点不归这里管。
+# 与 media-to-markdown 的 clean/__init__.py::_LEADING_PUNCT 是同一条规则（同源副本）。
+_LEADING_PUNCT = re.compile(r"^[，。、；：？！,.;:?!…—]+")
+
 def _norm_punct(text: str) -> str:
     """标点乱码规范化（ASR 转写常见）: ,,→, / ..→. / ??→? / 。，→。 / ，。→。"""
     for rx, repl in _PUNCT_PAIRS:
         text = rx.sub(repl, text)
     return text.strip()
+
+def _strip_leading_punct(text: str) -> str:
+    """去掉句首的孤立标点（上一句结尾被 ASR 断句切到了下一句开头）。"""
+    return _LEADING_PUNCT.sub("", text, count=1)
 
 
 def _segment_key(text: str) -> str:
@@ -99,7 +110,7 @@ def _clean_text_segment(text: str) -> str:
         return ""
     if not isinstance(text, str):
         text = str(text)
-    t = _norm_punct(text)
+    t = _strip_leading_punct(_norm_punct(text))
     t = re.sub(r"[ \t　]+", " ", t)
     t = t.strip()
     # 纯标点/纯空白段 → 清空（如 ",,. . ??" 规范化后只剩 ". . ?" 无实际内容）
