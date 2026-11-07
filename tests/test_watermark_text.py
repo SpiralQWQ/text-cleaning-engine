@@ -41,7 +41,7 @@ def test_正文不受影响():
 
 
 def test_邮箱微信号清除():
-    text = "邮箱：carrieforchen@gmail.com，微信号：陈小莉\n正文\n"
+    text = "邮箱：someone@example.com，微信号：测试账号\n正文\n"
     out = clean_watermark_text(text)["text"]
     assert "微信号" not in out
     assert "正文" in out
